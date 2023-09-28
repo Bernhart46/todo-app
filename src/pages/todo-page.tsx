@@ -31,7 +31,7 @@ export const TodoPage = ({
         setNavbarScrollTop({ groups: state.todo, groupName: group.name })
       );
     }
-  }, [todo, group]);
+  }, [todo, group, state.visual.isStateLoaded]);
 
   return (
     <>
