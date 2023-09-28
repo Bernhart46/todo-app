@@ -1,6 +1,6 @@
 export const HomePage = () => {
   return (
-    <div className="home-page" style={{ padding: '1.5rem' }}>
+    <div className="home-page" style={{ padding: "1.5rem" }}>
       <h1 className="center-text disable-selection">Home Page</h1>
       <h3>
         Welcome to my very minimalistic-looking little project called "Todo
@@ -52,8 +52,8 @@ export const HomePage = () => {
           group. I think this part is obvious.
         </li>
         <li>
-          The limit for the Tasks is 20. (I couldn't figure out how to manage
-          the tabIndex with an infinite amount. Sorry :D )
+          The limit for the Tasks is 20. (I try to limit these, because of the
+          localStorage)
         </li>
       </ul>
       <h3>Tasks</h3>
@@ -69,8 +69,15 @@ export const HomePage = () => {
         </li>
         <li>If you click on the title-bar, the description will be toggled.</li>
         <li>
-          Under that, there are 4 buttons, which you can control the task.
+          Under that, there are 4 buttons, which you can control the task. (on
+          focus, you can use arrow buttons)
         </li>
+      </ul>
+      <h3>GOOD TO KNOW</h3>
+      <ul>
+        <li>There are limits on how many lines you can write in a task.</li>
+        <li>Title: 5 lines</li>
+        <li>Description: 10 lines</li>
       </ul>
       <h3>Features</h3>
       <ul>
@@ -78,6 +85,17 @@ export const HomePage = () => {
           On PC you can use this app with a keyboard <br /> (tab = next,
           shift+tab = previous, enter = apply or use, escape = leave or cancel)
         </li>
+      </ul>
+
+      <h3>Never tested features</h3>
+      <ul>
+        <li>
+          I store these data in the localStorage and I know that it has a limit.
+          but I have never tested that. By the way, this is the reason I made
+          the limits, but I have zero idea if they are good or not for the
+          localStorage.
+        </li>
+        <li>Try not to exceed it 😛</li>
       </ul>
     </div>
   );
