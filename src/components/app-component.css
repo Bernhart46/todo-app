@@ -1,0 +1,45 @@
+.app-component {
+  display: grid;
+  color: white;
+  width: 100vw;
+  max-width: 2000px;
+  height: var(--vh);
+  margin: auto;
+  overflow: hidden;
+}
+
+/* EXTRA SMALL */
+@media (width < 576px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: calc(2rem + 22px) 11fr;
+  }
+}
+/* SMALL */
+@media (width >= 576px) {
+  .app-grid {
+    grid-template-rows: calc(2rem + 22px) 11fr;
+  }
+}
+/* MEDIUM */
+@media (width >= 768px) {
+}
+/* LARGE */
+@media (width >= 992px) {
+  .app-grid {
+    grid-template-rows: 1fr;
+    grid-template-columns: 4fr 8fr;
+  }
+}
+/* EXTRA LARGE */
+@media (width >= 1200px) {
+  .app-grid {
+    grid-template-columns: 3fr 9fr;
+  }
+}
+/* EXTRA EXTRA LARGE */
+@media (width >= 1900px) {
+  .app-grid {
+    grid-template-columns: 3fr 10fr;
+  }
+}
