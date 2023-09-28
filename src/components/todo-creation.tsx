@@ -1,9 +1,11 @@
-import { KeyboardEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { AppDispatch, RootState } from '../store';
-import { addNewTask, removeGroup } from '../store/todo/todo-slice';
-import { setNavbarScrollTop } from '../store/visual/visual-slice';
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../store";
+import { addNewTask, removeGroup } from "../store/todo/todo-slice";
+import { setNavbarScrollTop } from "../store/visual/visual-slice";
+import { calcNewHeight } from "../utils/functions";
+import "./todo-creation.css";
 
 export const TodoCreationComponent = ({
   groupName,
@@ -13,13 +15,16 @@ export const TodoCreationComponent = ({
   scrollToBottom: () => void;
 }) => {
   const [isCreateToggled, setIsCreateToggled] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const groups = useSelector((state: RootState) => state.todo);
   const group = groups.find((elem) => elem.name === groupName);
+
+  const titleRef = useRef<HTMLTextAreaElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -27,24 +32,15 @@ export const TodoCreationComponent = ({
     resetForm();
   };
 
-  const keyboardCheck = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === 'Enter') {
-      addTask();
-    }
-    if (e.code === 'Escape') {
-      cancelCreation();
-    }
-  };
-
   const resetForm = () => {
     setIsError(false);
-    setTitle('');
-    setDescription('');
+    setTitle("");
+    setDescription("");
     setIsCreateToggled(false);
   };
 
   const addTask = () => {
-    if (title.trim() === '') {
+    if (title.trim() === "") {
       setIsError(true);
       return;
     }
@@ -56,6 +52,30 @@ export const TodoCreationComponent = ({
       })
     );
     resetForm();
+  };
+
+  type handleInputArguments = {
+    e: React.ChangeEvent<HTMLTextAreaElement>;
+    type: "title" | "description";
+  };
+
+  const handleInput = ({ e, type }: handleInputArguments) => {
+    const MAX_LINES = type === "title" ? 5 : 10;
+    const value = e.target.value;
+    const lineArray = e.target.value.split("\n");
+    const isMaxLines = lineArray.length > MAX_LINES;
+
+    if (type === "title") {
+      if (isMaxLines) return;
+      setTitle(value);
+      isError && setIsError(false);
+    }
+    if (type === "description") {
+      if (isMaxLines) return;
+      setDescription(value);
+    }
+
+    e.target.style.height = calcNewHeight(value) + "px";
   };
 
   return group ? (
@@ -72,7 +92,7 @@ export const TodoCreationComponent = ({
                 scrollToBottom();
               }}
               onKeyUp={(e) => {
-                if (e.code === 'Enter') {
+                if (e.code === "Enter") {
                   setIsCreateToggled(true);
                   scrollToBottom();
                 }
@@ -87,13 +107,13 @@ export const TodoCreationComponent = ({
             onClick={() => {
               dispatch(removeGroup({ groupName }));
               dispatch(setNavbarScrollTop({ number: 0 }));
-              navigate('/');
+              navigate("/");
             }}
             onKeyUp={(e) => {
-              if (e.code === 'Enter') {
+              if (e.code === "Enter") {
                 dispatch(removeGroup({ groupName }));
                 dispatch(setNavbarScrollTop({ number: 0 }));
-                navigate('/');
+                navigate("/");
               }
             }}
           >
@@ -102,28 +122,25 @@ export const TodoCreationComponent = ({
         </div>
       ) : (
         <div className="todo-creation-form">
-          <input
-            type="text"
+          <textarea
             placeholder="Title"
-            onChange={(e) => {
-              setTitle(e.target.value);
-              isError && setIsError(false);
-            }}
-            onKeyUp={(e) => keyboardCheck(e)}
+            onChange={(e) => handleInput({ e, type: "title" })}
             tabIndex={isCreateToggled ? 402 : -1}
             className="todo-creation-title"
+            ref={titleRef}
+            value={title}
             style={{
-              borderBottomColor: isError ? 'red' : 'white',
-              outlineColor: isError ? 'red' : 'white',
+              borderBottomColor: isError ? "red" : "white",
+              outlineColor: isError ? "red" : "white",
             }}
-          />
+          ></textarea>
           <button
             type="button"
             onClick={addTask}
             className="todo-creation-add-button"
             tabIndex={isCreateToggled ? 404 : -1}
             onKeyUp={(e) => {
-              if (e.code === 'Enter') {
+              if (e.code === "Enter") {
                 addTask();
               }
             }}
@@ -131,21 +148,21 @@ export const TodoCreationComponent = ({
             Add
           </button>
 
-          <input
-            type="text"
+          <textarea
             placeholder="Description"
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => handleInput({ e, type: "description" })}
             tabIndex={isCreateToggled ? 403 : -1}
             className="todo-creation-description"
-            onKeyUp={(e) => keyboardCheck(e)}
-          />
+            ref={descriptionRef}
+            value={description}
+          ></textarea>
           <button
             type="button"
             onClick={cancelCreation}
             className="todo-creation-cancel-button"
             tabIndex={isCreateToggled ? 405 : -1}
             onKeyUp={(e) => {
-              if (e.code === 'Escape') {
+              if (e.code === "Escape") {
                 cancelCreation();
               }
             }}

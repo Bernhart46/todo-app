@@ -1,16 +1,16 @@
-import { useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from '../store';
-import { setNavbarScrollTop, toggleNavbar } from '../store/visual/visual-slice';
+import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { setNavbarScrollTop, toggleNavbar } from "../store/visual/visual-slice";
 import {
   useChangeIndex,
   useGetGroupAmount,
   useWindowSize,
-} from '../utils/hooks';
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux/es/exports';
-import { NavLink } from 'react-router-dom';
-import './navbar-component.css';
-import { addNewTodoGroup } from '../store/todo/todo-slice';
+} from "../utils/hooks";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux/es/exports";
+import { NavLink } from "react-router-dom";
+import "./navbar-component.css";
+import { addNewTodoGroup } from "../store/todo/todo-slice";
 
 const NavbarComponent = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,6 @@ const NavbarComponent = () => {
   //For scrolling the mobile version of the navbar
   useEffect(() => {
     if (isNavbarToggled || !navbarRef.current) return;
-    console.log(navbarScrollTop);
     navbarRef.current.scrollTo({ top: navbarScrollTop });
   }, [isNavbarToggled, store.visual.navbarScrollTop]);
 
@@ -52,14 +51,14 @@ const NavbarComponent = () => {
   return (
     <div
       className={`navbar-component ${
-        isNavbarToggled ? '' : 'navbar-bottom navbar-right'
+        isNavbarToggled ? "" : "navbar-bottom navbar-right"
       }`}
       ref={navbarRef}
     >
       <NavLink
         className="nav-button"
         to="/"
-        onClick={() => handleClick('Home')}
+        onClick={() => handleClick("Home")}
         tabIndex={4}
       >
         Home
@@ -90,15 +89,14 @@ const NavbarComponent = () => {
 };
 
 const NavbarCreateGroup = () => {
-  const [newGroupName, setNewGroupName] = useState('');
+  const [newGroupName, setNewGroupName] = useState("");
   const [isError, setIsError] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const length = useGetGroupAmount();
 
   const dispatch = useDispatch<AppDispatch>();
 
   const submitNewTodo = () => {
-    if (newGroupName === 'error' || newGroupName.trim() === '') {
+    if (newGroupName === "error" || newGroupName.trim() === "") {
       setIsError(true);
       return;
     }
@@ -106,11 +104,11 @@ const NavbarCreateGroup = () => {
     dispatch(addNewTodoGroup(newGroupName));
     if (!inputRef.current) return;
 
-    setNewGroupName('');
+    setNewGroupName("");
   };
 
   const submitByEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.code !== 'Enter') return;
+    if (e.code !== "Enter") return;
     submitNewTodo();
   };
 
@@ -129,8 +127,8 @@ const NavbarCreateGroup = () => {
         onKeyUp={(e) => submitByEnter(e)}
         tabIndex={150}
         style={{
-          borderBottomColor: isError ? 'red' : 'white',
-          outlineColor: isError ? 'red' : 'white',
+          borderBottomColor: isError ? "red" : "white",
+          outlineColor: isError ? "red" : "white",
         }}
       />
       <button

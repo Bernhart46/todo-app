@@ -1,16 +1,15 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
 import {
   todoGroup,
   todoChild,
   removeChild,
-  moveChildUp,
-  moveChildDown,
   changeStatus,
-  changeTaskInfo,
 } from "../store/todo/todo-slice";
 import { useChangeIndex } from "../utils/hooks";
+import { calcNewHeight } from "../utils/functions";
+import "./todo-component.css";
+import { TodoInterfaceBarComponent } from "./todo-interface";
 
 type TodoComponentProps = {
   group: todoGroup;
@@ -23,17 +22,22 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
 
   //EDIT states
   const [isEditMode, setIsEditMode] = useState(false);
-  const [newTaskName, setNewTaskName] = useState(childName);
+  const [newTaskTitle, setNewTaskTitle] = useState(childName);
   const [newTaskDescription, setNewTaskDescription] = useState(description);
-  const newNameRef = useRef<HTMLInputElement>(null);
+  const newNameRef = useRef<HTMLTextAreaElement>(null);
+  const newDescRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useDispatch();
 
   const changeIndex = useChangeIndex();
 
   useEffect(() => {
     if (!isEditMode) return;
-    if (!newNameRef.current) return;
+    if (!newNameRef.current || !newDescRef.current) return;
     newNameRef.current.focus();
+    newNameRef.current.style.height =
+      calcNewHeight(newNameRef.current.value) + "px";
+    newDescRef.current.style.height =
+      calcNewHeight(newDescRef.current.value) + "px";
   }, [isEditMode]);
 
   const handleKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -68,6 +72,27 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
     dispatch(changeStatus({ groupName: group.name, childName: child.name }));
   };
 
+  const handleNewDataChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    type: "name" | "description"
+  ) => {
+    const MAX_LINES = type === "name" ? 5 : 10;
+    const value = e.target.value;
+    const lineArray = e.target.value.split("\n");
+    const isMaxLines = lineArray.length > MAX_LINES;
+
+    if (type === "name") {
+      if (isMaxLines) return;
+      setNewTaskTitle(value);
+    }
+    if (type === "description") {
+      if (isMaxLines) return;
+      setNewTaskDescription(value);
+    }
+
+    e.target.style.height = calcNewHeight(value) + "px";
+  };
+
   const tIndex = 201 + 10 * group.children.indexOf(child);
 
   return (
@@ -94,14 +119,13 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
             {childName}
           </div>
         ) : (
-          <input
-            type="text"
+          <textarea
             className="new-name-input"
-            value={newTaskName}
-            onChange={(e) => setNewTaskName(e.target.value)}
+            value={newTaskTitle}
+            onChange={(e) => handleNewDataChange(e, "name")}
             tabIndex={isEditMode ? tIndex + 6 : -1}
             ref={newNameRef}
-          />
+          ></textarea>
         )}
         <div
           className="todo-toggle-arrow disable-selection"
@@ -120,8 +144,9 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
         ) : (
           <textarea
             className="new-description-input"
+            ref={newDescRef}
             value={newTaskDescription}
-            onChange={(e) => setNewTaskDescription(e.target.value)}
+            onChange={(e) => handleNewDataChange(e, "description")}
             tabIndex={isEditMode ? tIndex + 7 : -1}
           ></textarea>
         )}
@@ -132,162 +157,13 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
           group={group}
           isEditMode={isEditMode}
           setIsEditMode={setIsEditMode}
-          newTaskName={newTaskName}
+          newTaskName={newTaskTitle}
           newTaskDescription={newTaskDescription}
           tIndex={tIndex}
           isDescriptionToggled={isDescriptionToggled}
         />
       </div>
     </>
-  );
-};
-
-type TodoInterfaceBarComponentProps = {
-  child: todoChild;
-  group: todoGroup;
-  isEditMode: boolean;
-  setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-  newTaskName: string;
-  newTaskDescription: string;
-  tIndex: number;
-  isDescriptionToggled: boolean;
-};
-
-const TodoInterfaceBarComponent = ({
-  child,
-  group,
-  isEditMode,
-  setIsEditMode,
-  newTaskName,
-  newTaskDescription,
-  tIndex,
-  isDescriptionToggled,
-}: TodoInterfaceBarComponentProps) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const handleClick = (
-    type: "REMOVE" | "EDIT" | "MOVEUP" | "MOVEDOWN" | "CANCEL" | "SAVE"
-  ) => {
-    switch (type) {
-      case "REMOVE":
-        dispatch(
-          removeChild({
-            groupName: group.name,
-            childIndex: group.children.indexOf(child),
-          })
-        );
-        break;
-      case "EDIT":
-        setIsEditMode(true);
-        break;
-      case "MOVEUP":
-        dispatch(moveChildUp({ groupName: group.name, childName: child.name }));
-        break;
-      case "MOVEDOWN":
-        dispatch(
-          moveChildDown({ groupName: group.name, childName: child.name })
-        );
-        break;
-      case "CANCEL":
-        setIsEditMode(false);
-        break;
-      case "SAVE":
-        dispatch(
-          changeTaskInfo({
-            groupName: group.name,
-            childName: child.name,
-            newName: newTaskName,
-            newDescription: newTaskDescription,
-          })
-        );
-        setIsEditMode(false);
-        break;
-      default:
-        console.log("DEFAULT");
-    }
-  };
-
-  return (
-    <div className="todo-interface-bar">
-      {!isEditMode ? (
-        <>
-          <div
-            className="todo-button todo-remove-button"
-            onClick={() => handleClick("REMOVE")}
-            onKeyUp={(e) => {
-              if (e.code === "Enter") {
-                handleClick("REMOVE");
-              }
-            }}
-            tabIndex={isDescriptionToggled ? tIndex + 2 : -1}
-          >
-            Remove
-          </div>
-          <div
-            className="todo-button todo-edit-button"
-            onClick={() => handleClick("EDIT")}
-            onKeyUp={(e) => {
-              if (e.code === "Enter") {
-                handleClick("EDIT");
-              }
-            }}
-            tabIndex={isDescriptionToggled ? tIndex + 3 : -1}
-          >
-            Edit
-          </div>
-          <div
-            className="todo-button todo-moveup-button"
-            onClick={() => handleClick("MOVEUP")}
-            onKeyUp={(e) => {
-              if (e.code === "Enter") {
-                handleClick("MOVEUP");
-              }
-            }}
-            tabIndex={isDescriptionToggled ? tIndex + 4 : -1}
-          >
-            Up
-          </div>
-          <div
-            className="todo-button todo-movedown-button"
-            onClick={() => handleClick("MOVEDOWN")}
-            onKeyUp={(e) => {
-              if (e.code === "Enter") {
-                handleClick("MOVEDOWN");
-              }
-            }}
-            tabIndex={isDescriptionToggled ? tIndex + 5 : -1}
-          >
-            Down
-          </div>
-        </>
-      ) : (
-        <>
-          <div
-            className="todo-button todo-save-button"
-            onClick={() => handleClick("SAVE")}
-            onKeyUp={(e) => {
-              if (e.code === "Enter") {
-                handleClick("SAVE");
-              }
-            }}
-            tabIndex={isEditMode ? tIndex + 8 : -1}
-          >
-            Save
-          </div>
-          <div
-            className="todo-button todo-cancel-button"
-            onClick={() => handleClick("CANCEL")}
-            onKeyUp={(e) => {
-              if (e.code === "Enter") {
-                handleClick("CANCEL");
-              }
-            }}
-            tabIndex={isEditMode ? tIndex + 9 : -1}
-          >
-            Cancel
-          </div>
-        </>
-      )}
-    </div>
   );
 };
 

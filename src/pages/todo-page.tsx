@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { TodoComponent } from '../components/todo-component';
-import { TodoCreationComponent } from '../components/todo-creation-component';
-import { AppDispatch, RootState } from '../store';
-import { setNavbarScrollTop } from '../store/visual/visual-slice';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { TodoComponent } from "../components/todo-component";
+import { TodoCreationComponent } from "../components/todo-creation";
+import { AppDispatch, RootState } from "../store";
+import { setNavbarScrollTop } from "../store/visual/visual-slice";
 
-import './todo-page.css';
+import "./todo-page.css";
 
 export const TodoPage = ({
   scrollToBottom,
@@ -34,7 +34,7 @@ export const TodoPage = ({
   }, [todo, group]);
 
   return (
-    <div className="todo-page">
+    <>
       <h1 className="center-text disable-selection">{group?.name}</h1>
       <div className="todo-list">
         {group &&
@@ -48,6 +48,6 @@ export const TodoPage = ({
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
