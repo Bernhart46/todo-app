@@ -1,0 +1,26 @@
+div[role="separator"] {
+  margin-top: 10px;
+}
+
+div[role="separator"]::before {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 100%;
+  background-color: white;
+  position: relative;
+  top: 0.5rem;
+}
+
+div[role="separator"]::after {
+  content: attr(data-label);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+  width: 10rem;
+  background-color: #2b2b2b;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}

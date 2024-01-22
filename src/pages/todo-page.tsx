@@ -5,6 +5,7 @@ import { TodoComponent } from "../components/todo-component";
 import { TodoCreationComponent } from "../components/todo-creation";
 import { AppDispatch, RootState } from "../store";
 import { setNavbarScrollTop } from "../store/visual/visual-slice";
+import HRLine from "../components/hr-line.tsx";
 
 import "./todo-page.css";
 
@@ -32,15 +33,32 @@ export const TodoPage = ({
       );
     }
   }, [todo, group, state.visual.isStateLoaded]);
+  const notStartedTodos = group
+    ? group.children.filter((child) => child.status === "NOT_STARTED")
+    : [];
+  const inProgress = group
+    ? group.children.filter((child) => child.status === "IN_PROGRESS")
+    : [];
+  const done = group
+    ? group.children.filter((child) => child.status === "DONE")
+    : [];
 
   return (
     <>
       <h1 className="center-text disable-selection">{group?.name}</h1>
       <div className="todo-list">
-        {group &&
-          [...group.children].map((child) => {
-            return <TodoComponent key={child.id} group={group} child={child} />;
-          })}
+        <HRLine name="Not Started" />
+        {notStartedTodos.map((child) => {
+          return <TodoComponent key={child.id} group={group} child={child} />;
+        })}
+        <HRLine name="In Progress" />
+        {inProgress.map((child) => {
+          return <TodoComponent key={child.id} group={group} child={child} />;
+        })}
+        <HRLine name="Finished" />
+        {done.map((child) => {
+          return <TodoComponent key={child.id} group={group} child={child} />;
+        })}
         {group && (
           <TodoCreationComponent
             groupName={group.name}
