@@ -47,12 +47,10 @@ export const TodoInterfaceBarComponent = ({
         setIsEditMode(true);
         break;
       case "MOVEUP":
-        dispatch(moveChildUp({ groupName: group.name, childName: child.name }));
+        dispatch(moveChildUp({ groupName: group.name, childId: child.id }));
         break;
       case "MOVEDOWN":
-        dispatch(
-          moveChildDown({ groupName: group.name, childName: child.name })
-        );
+        dispatch(moveChildDown({ groupName: group.name, childId: child.id }));
         break;
       case "CANCEL":
         setIsEditMode(false);
@@ -61,7 +59,7 @@ export const TodoInterfaceBarComponent = ({
         dispatch(
           changeTaskInfo({
             groupName: group.name,
-            childName: child.name,
+            childId: child.id,
             newName: newTaskName,
             newDescription: newTaskDescription,
           })

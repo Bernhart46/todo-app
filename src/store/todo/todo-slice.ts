@@ -30,17 +30,17 @@ export const todoSlice = createSlice({
     },
     moveChildUp: (
       state,
-      action: PayloadAction<{ groupName: string; childName: string }>
+      action: PayloadAction<{ groupName: string; childId: number }>
     ) => {
-      const { groupName, childName } = action.payload;
+      const { groupName, childId } = action.payload;
       const group = getGroup(state, groupName);
       if (!group) return;
 
-      const child = group.children.find((elem) => elem.name === childName);
+      const child = getChild(group, childId);
       if (!child) return;
 
       const childIndex = group.children.findIndex(
-        (elem) => elem.name === childName
+        (elem) => elem.id === childId
       );
 
       if (childIndex === 0) return;
@@ -52,17 +52,17 @@ export const todoSlice = createSlice({
     },
     moveChildDown: (
       state,
-      action: PayloadAction<{ groupName: string; childName: string }>
+      action: PayloadAction<{ groupName: string; childId: number }>
     ) => {
-      const { groupName, childName } = action.payload;
+      const { groupName, childId } = action.payload;
       const group = getGroup(state, groupName);
       if (!group) return;
 
-      const child = getChild(group, childName);
+      const child = getChild(group, childId);
       if (!child) return;
 
       const childIndex = group.children.findIndex(
-        (elem) => elem.name === childName
+        (elem) => elem.id === childId
       );
 
       if (childIndex === group.children.length - 1) return;
@@ -135,16 +135,17 @@ export const todoSlice = createSlice({
       state,
       action: PayloadAction<{
         groupName: string;
-        childName: string;
+        childId: number;
         direction: "next" | "prev";
       }>
     ) => {
-      const { groupName, childName, direction } = action.payload;
+      const { groupName, childId, direction } = action.payload;
       const group = getGroup(state, groupName);
       if (!group) return;
 
-      const child = getChild(group, childName);
+      const child = getChild(group, childId);
       if (!child) return;
+      console.log(child.id);
 
       switch (child.status) {
         case "NOT_STARTED":
@@ -174,17 +175,17 @@ export const todoSlice = createSlice({
       state,
       action: PayloadAction<{
         groupName: string;
-        childName: string;
+        childId: number;
         newName: string;
         newDescription: string;
       }>
     ) => {
-      const { groupName, childName, newName, newDescription } = action.payload;
+      const { groupName, childId, newName, newDescription } = action.payload;
 
       const group = getGroup(state, groupName);
       if (!group) return;
 
-      const child = getChild(group, childName);
+      const child = getChild(group, childId);
       if (!child) return;
 
       child.name = newName;
@@ -202,8 +203,8 @@ const getGroup = (state: todoGroup[], groupName: string) => {
   return state.find((elem) => elem.name === groupName);
 };
 
-const getChild = (group: todoGroup, childName: string) => {
-  return group.children.find((elem) => elem.name === childName);
+const getChild = (group: todoGroup, childId: number) => {
+  return group.children.find((elem) => elem.id === childId);
 };
 
 export const {

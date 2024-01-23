@@ -42,7 +42,7 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
 
   const handleKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.code === "ArrowUp" || e.code === "ArrowDown") {
-      changeIndex({ event: e, groupName: group.name, childName });
+      changeIndex({ event: e, groupName: group.name, childId: child.id });
     }
 
     if (e.code === "Enter") {
@@ -70,7 +70,7 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
 
   const onChangeStatus = (direction: "next" | "prev") => {
     dispatch(
-      changeStatus({ groupName: group.name, childName: child.name, direction })
+      changeStatus({ groupName: group.name, childId: child.id, direction })
     );
   };
 
@@ -110,10 +110,8 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
           onKeyUp={(e) => {
             if (e.code === "Enter") {
               if (e.shiftKey) {
-                console.log("Shift");
                 onChangeStatus("prev");
               } else {
-                console.log("Enter");
                 onChangeStatus("next");
               }
             }
