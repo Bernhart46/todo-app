@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type todoChild = {
   id: number;
   name: string;
   description: string;
-  status: 'NOT_STARTED' | 'IN_PROGRESS' | 'DONE';
+  status: "NOT_STARTED" | "IN_PROGRESS" | "DONE";
 };
 
 export type todoGroup = {
@@ -14,7 +14,7 @@ export type todoGroup = {
 const initialState: todoGroup[] = [];
 
 export const todoSlice = createSlice({
-  name: 'todo',
+  name: "todo",
   initialState,
   reducers: {
     loadState: (state, action: PayloadAction<{ data: todoGroup[] }>) => {
@@ -128,14 +128,18 @@ export const todoSlice = createSlice({
         id: Date.now(),
         name: title,
         description: description,
-        status: 'NOT_STARTED',
+        status: "NOT_STARTED",
       });
     },
     changeStatus: (
       state,
-      action: PayloadAction<{ groupName: string; childName: string }>
+      action: PayloadAction<{
+        groupName: string;
+        childName: string;
+        direction: "next" | "prev";
+      }>
     ) => {
-      const { groupName, childName } = action.payload;
+      const { groupName, childName, direction } = action.payload;
       const group = getGroup(state, groupName);
       if (!group) return;
 
@@ -143,14 +147,26 @@ export const todoSlice = createSlice({
       if (!child) return;
 
       switch (child.status) {
-        case 'NOT_STARTED':
-          child.status = 'IN_PROGRESS';
+        case "NOT_STARTED":
+          if (direction === "next") {
+            child.status = "IN_PROGRESS";
+          } else {
+            child.status = "DONE";
+          }
           break;
-        case 'IN_PROGRESS':
-          child.status = 'DONE';
+        case "IN_PROGRESS":
+          if (direction === "next") {
+            child.status = "DONE";
+          } else {
+            child.status = "NOT_STARTED";
+          }
           break;
-        case 'DONE':
-          child.status = 'NOT_STARTED';
+        case "DONE":
+          if (direction === "next") {
+            child.status = "NOT_STARTED";
+          } else {
+            child.status = "IN_PROGRESS";
+          }
           break;
       }
     },

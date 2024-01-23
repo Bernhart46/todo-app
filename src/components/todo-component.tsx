@@ -68,8 +68,10 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
     }
   };
 
-  const onChangeStatus = () => {
-    dispatch(changeStatus({ groupName: group.name, childName: child.name }));
+  const onChangeStatus = (direction: "next" | "prev") => {
+    dispatch(
+      changeStatus({ groupName: group.name, childName: child.name, direction })
+    );
   };
 
   const handleNewDataChange = (
@@ -100,10 +102,20 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
       <div className="todo-item">
         <div
           className="todo-status"
-          onClick={onChangeStatus}
+          onClick={() => onChangeStatus("next")}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            onChangeStatus("prev");
+          }}
           onKeyUp={(e) => {
             if (e.code === "Enter") {
-              onChangeStatus();
+              if (e.shiftKey) {
+                console.log("Shift");
+                onChangeStatus("prev");
+              } else {
+                console.log("Enter");
+                onChangeStatus("next");
+              }
             }
           }}
           style={{ backgroundColor: getColorByStatus(childStatus) }}
