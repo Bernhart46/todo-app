@@ -145,7 +145,6 @@ export const todoSlice = createSlice({
 
       const child = getChild(group, childId);
       if (!child) return;
-      console.log(child.id);
 
       switch (child.status) {
         case "NOT_STARTED":
