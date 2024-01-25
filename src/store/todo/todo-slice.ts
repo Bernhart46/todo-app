@@ -17,8 +17,8 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    loadState: (state, action: PayloadAction<{ data: todoGroup[] }>) => {
-      return (state = action.payload.data);
+    loadState: (_, action: PayloadAction<{ data: todoGroup[] }>) => {
+      return action.payload.data;
     },
     addNewTodoGroup: (state, action: PayloadAction<string>) => {
       if (!state.find((group) => group.name === action.payload)) {

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { TodoComponent } from "../components/todo-component";
@@ -9,14 +9,20 @@ import HRLine from "../components/hr-line";
 
 import "./todo-page.css";
 
-export const TodoPage = ({
-  scrollToBottom,
-}: {
+type TodoPageProps = {
   scrollToBottom: () => void;
-}) => {
+};
+
+export type FocusedTodo = {
+  id: number;
+  isOpen: boolean;
+};
+
+export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
   const { todo } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const [focusedTodo, setFocusedTodo] = useState<null | FocusedTodo>(null);
 
   const state = useSelector((state: RootState) => state);
 
@@ -50,17 +56,41 @@ export const TodoPage = ({
         <HRLine name="Not Started" />
         {group &&
           notStartedTodos.map((child) => {
-            return <TodoComponent key={child.id} group={group} child={child} />;
+            return (
+              <TodoComponent
+                key={child.id}
+                group={group}
+                child={child}
+                focusedTodo={focusedTodo}
+                setFocusedTodo={setFocusedTodo}
+              />
+            );
           })}
         <HRLine name="In Progress" />
         {group &&
           inProgress.map((child) => {
-            return <TodoComponent key={child.id} group={group} child={child} />;
+            return (
+              <TodoComponent
+                key={child.id}
+                group={group}
+                child={child}
+                focusedTodo={focusedTodo}
+                setFocusedTodo={setFocusedTodo}
+              />
+            );
           })}
         <HRLine name="Finished" />
         {group &&
           done.map((child) => {
-            return <TodoComponent key={child.id} group={group} child={child} />;
+            return (
+              <TodoComponent
+                key={child.id}
+                group={group}
+                child={child}
+                focusedTodo={focusedTodo}
+                setFocusedTodo={setFocusedTodo}
+              />
+            );
           })}
         {group && (
           <TodoCreationComponent

@@ -10,13 +10,21 @@ import { useChangeIndex } from "../utils/hooks";
 import { calcNewHeight } from "../utils/functions";
 import "./todo-component.css";
 import { TodoInterfaceBarComponent } from "./todo-interface";
+import { FocusedTodo } from "../pages/todo-page";
 
 type TodoComponentProps = {
   group: todoGroup;
   child: todoChild;
+  focusedTodo: FocusedTodo | null;
+  setFocusedTodo: React.Dispatch<React.SetStateAction<null | FocusedTodo>>;
 };
 
-export const TodoComponent = ({ group, child }: TodoComponentProps) => {
+export const TodoComponent = ({
+  group,
+  child,
+  focusedTodo,
+  setFocusedTodo,
+}: TodoComponentProps) => {
   const { name: childName, status: childStatus, description } = child;
   const [isDescriptionToggled, setIsDescriptionToggled] = useState(false);
 
@@ -26,9 +34,17 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
   const [newTaskDescription, setNewTaskDescription] = useState(description);
   const newNameRef = useRef<HTMLTextAreaElement>(null);
   const newDescRef = useRef<HTMLTextAreaElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
   const changeIndex = useChangeIndex();
+
+  useEffect(() => {
+    if (focusedTodo?.id === child.id) {
+      statusRef?.current?.focus();
+      setIsDescriptionToggled(!!focusedTodo?.isOpen);
+    }
+  }, [focusedTodo]);
 
   useEffect(() => {
     if (!isEditMode) return;
@@ -72,6 +88,10 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
     dispatch(
       changeStatus({ groupName: group.name, childId: child.id, direction })
     );
+    setFocusedTodo({
+      id: child.id,
+      isOpen: isDescriptionToggled,
+    });
   };
 
   const handleNewDataChange = (
@@ -103,6 +123,7 @@ export const TodoComponent = ({ group, child }: TodoComponentProps) => {
         <div
           className="todo-status"
           onClick={() => onChangeStatus("next")}
+          ref={statusRef}
           onContextMenu={(e) => {
             e.preventDefault();
             onChangeStatus("prev");
