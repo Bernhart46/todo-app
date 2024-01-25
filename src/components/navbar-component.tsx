@@ -59,12 +59,12 @@ const NavbarComponent = () => {
         className="nav-button"
         to="/"
         onClick={() => handleClick("Home")}
-        tabIndex={4}
+        tabIndex={100}
       >
         Home
       </NavLink>
-      {[...todos].map((todo) => {
-        const tIndex = 101 + todos.indexOf(todo);
+      {[...todos].map((todo, i) => {
+        const tIndex = 101 + i;
         return (
           <NavLink
             className="nav-button"
@@ -92,6 +92,7 @@ const NavbarCreateGroup = () => {
   const [newGroupName, setNewGroupName] = useState("");
   const [isError, setIsError] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const groupAmount = useGetGroupAmount();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -125,7 +126,7 @@ const NavbarCreateGroup = () => {
         ref={inputRef}
         placeholder="New to-do group"
         onKeyUp={(e) => submitByEnter(e)}
-        tabIndex={150}
+        tabIndex={101 + groupAmount}
         style={{
           borderBottomColor: isError ? "red" : "white",
           outlineColor: isError ? "red" : "white",
@@ -135,7 +136,7 @@ const NavbarCreateGroup = () => {
         type="button"
         className="create-button"
         onClick={submitNewTodo}
-        tabIndex={151}
+        tabIndex={101 + groupAmount + 1}
       >
         +
       </button>

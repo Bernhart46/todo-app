@@ -1,10 +1,10 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  todoGroup,
   todoChild,
   removeChild,
   changeStatus,
+  setNewChildIndex,
 } from "../store/todo/todo-slice";
 import { useChangeIndex } from "../utils/hooks";
 import { calcNewHeight } from "../utils/functions";
@@ -13,17 +13,21 @@ import { TodoInterfaceBarComponent } from "./todo-interface";
 import { FocusedTodo } from "../pages/todo-page";
 
 type TodoComponentProps = {
-  group: todoGroup;
+  groupName: string;
   child: todoChild;
   focusedTodo: FocusedTodo | null;
   setFocusedTodo: React.Dispatch<React.SetStateAction<null | FocusedTodo>>;
+  baseIndex: number;
+  normalIndex: number;
 };
 
 export const TodoComponent = ({
-  group,
+  groupName,
   child,
   focusedTodo,
   setFocusedTodo,
+  baseIndex,
+  normalIndex,
 }: TodoComponentProps) => {
   const { name: childName, status: childStatus, description } = child;
   const [isDescriptionToggled, setIsDescriptionToggled] = useState(false);
@@ -38,6 +42,16 @@ export const TodoComponent = ({
   const dispatch = useDispatch();
 
   const changeIndex = useChangeIndex();
+
+  useEffect(() => {
+    dispatch(
+      setNewChildIndex({
+        groupName,
+        childId: child.id,
+        newIndex: normalIndex,
+      })
+    );
+  }, [normalIndex]);
 
   useEffect(() => {
     if (focusedTodo?.id === child.id) {
@@ -58,7 +72,7 @@ export const TodoComponent = ({
 
   const handleKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.code === "ArrowUp" || e.code === "ArrowDown") {
-      changeIndex({ event: e, groupName: group.name, childId: child.id });
+      changeIndex({ event: e, groupName, childId: child.id });
     }
 
     if (e.code === "Enter") {
@@ -68,14 +82,15 @@ export const TodoComponent = ({
     if (e.code === "Delete") {
       dispatch(
         removeChild({
-          groupName: group.name,
-          childIndex: group.children.indexOf(child),
+          groupName,
+          childId: child.id,
         })
       );
     }
   };
 
   const toggleDescription = () => {
+    console.log("index: ", child.index);
     if (isDescriptionToggled) {
       setIsDescriptionToggled(false);
       setIsEditMode(false);
@@ -85,9 +100,7 @@ export const TodoComponent = ({
   };
 
   const onChangeStatus = (direction: "next" | "prev") => {
-    dispatch(
-      changeStatus({ groupName: group.name, childId: child.id, direction })
-    );
+    dispatch(changeStatus({ groupName, childId: child.id, direction }));
     setFocusedTodo({
       id: child.id,
       isOpen: isDescriptionToggled,
@@ -115,8 +128,6 @@ export const TodoComponent = ({
     e.target.style.height = calcNewHeight(value) + "px";
   };
 
-  const tIndex = 201 + 10 * group.children.indexOf(child);
-
   return (
     <>
       <div className="todo-item">
@@ -138,15 +149,17 @@ export const TodoComponent = ({
             }
           }}
           style={{ backgroundColor: getColorByStatus(childStatus) }}
-          tabIndex={tIndex + 1}
+          tabIndex={baseIndex}
         ></div>
+        {/* tabIndex={tIndex + 1} */}
         {!isEditMode ? (
           <div
             className="todo-name disable-selection"
             onKeyUp={(e) => handleKeyUp(e)}
-            tabIndex={tIndex}
             onClick={toggleDescription}
+            tabIndex={baseIndex + 1}
           >
+            {/* tabIndex={tIndex} */}
             {childName}
           </div>
         ) : (
@@ -154,10 +167,11 @@ export const TodoComponent = ({
             className="new-name-input"
             value={newTaskTitle}
             onChange={(e) => handleNewDataChange(e, "name")}
-            tabIndex={isEditMode ? tIndex + 6 : -1}
             ref={newNameRef}
+            tabIndex={isEditMode ? baseIndex + 1 : -1}
           ></textarea>
         )}
+        {/* tabIndex={isEditMode ? tIndex + 6 : -1} */}
         <div
           className="todo-toggle-arrow disable-selection"
           onClick={toggleDescription}
@@ -178,21 +192,23 @@ export const TodoComponent = ({
             ref={newDescRef}
             value={newTaskDescription}
             onChange={(e) => handleNewDataChange(e, "description")}
-            tabIndex={isEditMode ? tIndex + 7 : -1}
+            tabIndex={isEditMode ? baseIndex + 2 : -1}
           ></textarea>
         )}
+        {/* tabIndex={isEditMode ? tIndex + 7 : -1} */}
 
         {/* Looks bad I know */}
         <TodoInterfaceBarComponent
           child={child}
-          group={group}
+          groupName={groupName}
           isEditMode={isEditMode}
           setIsEditMode={setIsEditMode}
           newTaskName={newTaskTitle}
           newTaskDescription={newTaskDescription}
-          tIndex={tIndex}
           isDescriptionToggled={isDescriptionToggled}
+          tIndex={baseIndex + 2}
         />
+        {/* tIndex={tIndex} */}
       </div>
     </>
   );

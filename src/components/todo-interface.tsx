@@ -5,13 +5,12 @@ import {
   moveChildUp,
   removeChild,
   todoChild,
-  todoGroup,
 } from "../store/todo/todo-slice";
 import { AppDispatch } from "../store";
 
 type TodoInterfaceBarComponentProps = {
   child: todoChild;
-  group: todoGroup;
+  groupName: string;
   isEditMode: boolean;
   setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   newTaskName: string;
@@ -22,7 +21,7 @@ type TodoInterfaceBarComponentProps = {
 
 export const TodoInterfaceBarComponent = ({
   child,
-  group,
+  groupName,
   isEditMode,
   setIsEditMode,
   newTaskName,
@@ -38,8 +37,8 @@ export const TodoInterfaceBarComponent = ({
       case "REMOVE":
         dispatch(
           removeChild({
-            groupName: group.name,
-            childIndex: group.children.indexOf(child),
+            groupName,
+            childId: child.id,
           })
         );
         break;
@@ -47,10 +46,10 @@ export const TodoInterfaceBarComponent = ({
         setIsEditMode(true);
         break;
       case "MOVEUP":
-        dispatch(moveChildUp({ groupName: group.name, childId: child.id }));
+        dispatch(moveChildUp({ groupName, childId: child.id }));
         break;
       case "MOVEDOWN":
-        dispatch(moveChildDown({ groupName: group.name, childId: child.id }));
+        dispatch(moveChildDown({ groupName, childId: child.id }));
         break;
       case "CANCEL":
         setIsEditMode(false);
@@ -58,7 +57,7 @@ export const TodoInterfaceBarComponent = ({
       case "SAVE":
         dispatch(
           changeTaskInfo({
-            groupName: group.name,
+            groupName,
             childId: child.id,
             newName: newTaskName,
             newDescription: newTaskDescription,
@@ -83,7 +82,7 @@ export const TodoInterfaceBarComponent = ({
                 handleClick("REMOVE");
               }
             }}
-            tabIndex={isDescriptionToggled ? tIndex + 2 : -1}
+            tabIndex={isDescriptionToggled ? tIndex : -1}
           >
             Remove
           </div>
@@ -95,7 +94,7 @@ export const TodoInterfaceBarComponent = ({
                 handleClick("EDIT");
               }
             }}
-            tabIndex={isDescriptionToggled ? tIndex + 3 : -1}
+            tabIndex={isDescriptionToggled ? tIndex + 1 : -1}
           >
             Edit
           </div>
@@ -107,7 +106,7 @@ export const TodoInterfaceBarComponent = ({
                 handleClick("MOVEUP");
               }
             }}
-            tabIndex={isDescriptionToggled ? tIndex + 4 : -1}
+            tabIndex={isDescriptionToggled ? tIndex + 2 : -1}
           >
             Up
           </div>
@@ -119,7 +118,7 @@ export const TodoInterfaceBarComponent = ({
                 handleClick("MOVEDOWN");
               }
             }}
-            tabIndex={isDescriptionToggled ? tIndex + 5 : -1}
+            tabIndex={isDescriptionToggled ? tIndex + 3 : -1}
           >
             Down
           </div>
@@ -134,7 +133,7 @@ export const TodoInterfaceBarComponent = ({
                 handleClick("SAVE");
               }
             }}
-            tabIndex={isEditMode ? tIndex + 8 : -1}
+            tabIndex={isEditMode ? tIndex + 1 : -1}
           >
             Save
           </div>
@@ -146,7 +145,7 @@ export const TodoInterfaceBarComponent = ({
                 handleClick("CANCEL");
               }
             }}
-            tabIndex={isEditMode ? tIndex + 9 : -1}
+            tabIndex={isEditMode ? tIndex + 2 : -1}
           >
             Cancel
           </div>

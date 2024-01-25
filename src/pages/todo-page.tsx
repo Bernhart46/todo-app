@@ -6,6 +6,7 @@ import { TodoCreationComponent } from "../components/todo-creation";
 import { AppDispatch, RootState } from "../store";
 import { setNavbarScrollTop } from "../store/visual/visual-slice";
 import HRLine from "../components/hr-line";
+import { useGetGroupAmount } from "../utils/hooks";
 
 import "./todo-page.css";
 
@@ -22,6 +23,7 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
   const { todo } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const groupAmount = useGetGroupAmount();
   const [focusedTodo, setFocusedTodo] = useState<null | FocusedTodo>(null);
 
   const state = useSelector((state: RootState) => state);
@@ -40,14 +42,26 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
     }
   }, [todo, group, state.visual.isStateLoaded]);
   const notStartedTodos = group
-    ? group.children.filter((child) => child.status === "NOT_STARTED")
+    ? group.children
+        .filter((child) => child.status === "NOT_STARTED")
+        .sort((a, b) => a.index - b.index)
     : [];
   const inProgress = group
-    ? group.children.filter((child) => child.status === "IN_PROGRESS")
+    ? group.children
+        .filter((child) => child.status === "IN_PROGRESS")
+        .sort((a, b) => a.index - b.index)
     : [];
   const done = group
-    ? group.children.filter((child) => child.status === "DONE")
+    ? group.children
+        .filter((child) => child.status === "DONE")
+        .sort((a, b) => a.index - b.index)
     : [];
+  console.log(notStartedTodos);
+  //base tabIndexes for status groups
+  //101 = base, 2 = new group
+  const nst_baseIndex = 101 + groupAmount + 2 + 1;
+  const ip_baseIndex = nst_baseIndex + notStartedTodos.length * 6;
+  const done_baseIndex = ip_baseIndex + inProgress.length * 6;
 
   return (
     <>
@@ -55,40 +69,49 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
       <div className="todo-list">
         <HRLine name="Not Started" />
         {group &&
-          notStartedTodos.map((child) => {
+          notStartedTodos.map((child, i) => {
+            const tIndex = nst_baseIndex + i * 6;
             return (
               <TodoComponent
                 key={child.id}
-                group={group}
+                groupName={group.name}
                 child={child}
                 focusedTodo={focusedTodo}
                 setFocusedTodo={setFocusedTodo}
+                baseIndex={tIndex}
+                normalIndex={i}
               />
             );
           })}
         <HRLine name="In Progress" />
         {group &&
-          inProgress.map((child) => {
+          inProgress.map((child, i) => {
+            const tIndex = ip_baseIndex + i * 6;
             return (
               <TodoComponent
                 key={child.id}
-                group={group}
+                groupName={group.name}
                 child={child}
                 focusedTodo={focusedTodo}
                 setFocusedTodo={setFocusedTodo}
+                baseIndex={tIndex}
+                normalIndex={i}
               />
             );
           })}
         <HRLine name="Finished" />
         {group &&
-          done.map((child) => {
+          done.map((child, i) => {
+            const tIndex = done_baseIndex + i * 6;
             return (
               <TodoComponent
                 key={child.id}
-                group={group}
+                groupName={group.name}
                 child={child}
                 focusedTodo={focusedTodo}
                 setFocusedTodo={setFocusedTodo}
+                baseIndex={tIndex}
+                normalIndex={i}
               />
             );
           })}

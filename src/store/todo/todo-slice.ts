@@ -4,6 +4,7 @@ export type todoChild = {
   name: string;
   description: string;
   status: "NOT_STARTED" | "IN_PROGRESS" | "DONE";
+  index: number;
 };
 
 export type todoGroup = {
@@ -39,16 +40,15 @@ export const todoSlice = createSlice({
       const child = getChild(group, childId);
       if (!child) return;
 
-      const childIndex = group.children.findIndex(
-        (elem) => elem.id === childId
+      const subgroup = group.children.filter((x) => x.status === child.status);
+      if (child.index === 0) return;
+      const prevChild = subgroup.find(
+        (elem) => elem.index === child.index - 1 && elem.status === child.status
       );
+      if (!prevChild) return;
 
-      if (childIndex === 0) return;
-      const previousChildIndex = childIndex - 1;
-      [group.children[previousChildIndex], group.children[childIndex]] = [
-        group.children[childIndex],
-        group.children[previousChildIndex],
-      ];
+      child.index--;
+      prevChild.index++;
     },
     moveChildDown: (
       state,
@@ -61,16 +61,12 @@ export const todoSlice = createSlice({
       const child = getChild(group, childId);
       if (!child) return;
 
-      const childIndex = group.children.findIndex(
-        (elem) => elem.id === childId
-      );
-
-      if (childIndex === group.children.length - 1) return;
-      const nextChildIndex = childIndex + 1;
-      [group.children[childIndex], group.children[nextChildIndex]] = [
-        group.children[nextChildIndex],
-        group.children[childIndex],
-      ];
+      const subgroup = group.children.filter((x) => x.status === child.status);
+      if (child.index === subgroup.length - 1) return;
+      const nextChild = subgroup.find((elem) => elem.index === child.index + 1);
+      if (!nextChild) return;
+      child.index++;
+      nextChild.index--;
     },
     moveGroupUp: (state, action: PayloadAction<{ groupName: string }>) => {
       const { groupName } = action.payload;
@@ -103,14 +99,12 @@ export const todoSlice = createSlice({
 
     removeChild: (
       state,
-      action: PayloadAction<{ groupName: string; childIndex: number }>
+      action: PayloadAction<{ groupName: string; childId: number }>
     ) => {
-      const { groupName, childIndex } = action.payload;
+      const { groupName, childId } = action.payload;
       const group = getGroup(state, groupName);
       if (!group) return;
-      group.children = group.children.filter(
-        (elem) => group.children.indexOf(elem) !== childIndex
-      );
+      group.children = group.children.filter((elem) => elem.id !== childId);
     },
     addNewTask: (
       state,
@@ -129,7 +123,23 @@ export const todoSlice = createSlice({
         name: title,
         description: description,
         status: "NOT_STARTED",
+        index: 0,
       });
+    },
+    setNewChildIndex: (
+      state,
+      action: PayloadAction<{
+        groupName: string;
+        childId: number;
+        newIndex: number;
+      }>
+    ) => {
+      const { groupName, childId, newIndex } = action.payload;
+      const group = getGroup(state, groupName);
+      if (!group) return;
+      const child = getChild(group, childId);
+      if (!child) return;
+      child.index = newIndex;
     },
     changeStatus: (
       state,
@@ -218,5 +228,6 @@ export const {
   changeTaskInfo,
   removeGroup,
   loadState,
+  setNewChildIndex,
 } = todoSlice.actions;
 export default todoSlice.reducer;
