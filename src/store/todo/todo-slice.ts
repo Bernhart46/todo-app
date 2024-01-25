@@ -118,12 +118,16 @@ export const todoSlice = createSlice({
       const group = getGroup(state, groupName);
       if (!group) return;
 
+      const notStartedGroupLength = group.children.filter(
+        (x) => x.status === "NOT_STARTED"
+      ).length;
+
       group.children.push({
         id: Date.now(),
         name: title,
         description: description,
         status: "NOT_STARTED",
-        index: 0,
+        index: notStartedGroupLength,
       });
     },
     setNewChildIndex: (
@@ -156,26 +160,41 @@ export const todoSlice = createSlice({
       const child = getChild(group, childId);
       if (!child) return;
 
+      const notStartedGroupLength = group.children.filter(
+        (x) => x.status === "NOT_STARTED"
+      ).length;
+      const inProgressGroupLength = group.children.filter(
+        (x) => x.status === "IN_PROGRESS"
+      ).length;
+      const doneGroupLength = group.children.filter((x) => x.status === "DONE")
+        .length;
+
       switch (child.status) {
         case "NOT_STARTED":
           if (direction === "next") {
             child.status = "IN_PROGRESS";
+            child.index = inProgressGroupLength;
           } else {
             child.status = "DONE";
+            child.index = doneGroupLength;
           }
           break;
         case "IN_PROGRESS":
           if (direction === "next") {
             child.status = "DONE";
+            child.index = doneGroupLength;
           } else {
             child.status = "NOT_STARTED";
+            child.index = notStartedGroupLength;
           }
           break;
         case "DONE":
           if (direction === "next") {
             child.status = "NOT_STARTED";
+            child.index = notStartedGroupLength;
           } else {
             child.status = "IN_PROGRESS";
+            child.index = inProgressGroupLength;
           }
           break;
       }

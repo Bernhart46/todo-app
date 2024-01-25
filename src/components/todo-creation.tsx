@@ -82,28 +82,26 @@ export const TodoCreationComponent = ({
     <>
       {!isCreateToggled ? (
         <div className="todo-buttons">
-          {group.children.length < 20 && (
-            <div
-              className="todo-creation-button"
-              tabIndex={401}
-              onClick={() => {
-                setIsCreateToggled(!isCreateToggled);
+          <div
+            className="todo-creation-button"
+            tabIndex={100401}
+            onClick={() => {
+              setIsCreateToggled(!isCreateToggled);
 
+              scrollToBottom();
+            }}
+            onKeyUp={(e) => {
+              if (e.code === "Enter") {
+                setIsCreateToggled(true);
                 scrollToBottom();
-              }}
-              onKeyUp={(e) => {
-                if (e.code === "Enter") {
-                  setIsCreateToggled(true);
-                  scrollToBottom();
-                }
-              }}
-            >
-              Create Task
-            </div>
-          )}
+              }
+            }}
+          >
+            Create Task
+          </div>
           <div
             className="remove-group-button"
-            tabIndex={406}
+            tabIndex={100406}
             onClick={() => {
               dispatch(removeGroup({ groupName }));
               dispatch(setNavbarScrollTop({ number: 0 }));
@@ -125,7 +123,7 @@ export const TodoCreationComponent = ({
           <textarea
             placeholder="Title"
             onChange={(e) => handleInput({ e, type: "title" })}
-            tabIndex={isCreateToggled ? 402 : -1}
+            tabIndex={isCreateToggled ? 100402 : -1}
             className="todo-creation-title"
             ref={titleRef}
             value={title}
@@ -138,7 +136,7 @@ export const TodoCreationComponent = ({
             type="button"
             onClick={addTask}
             className="todo-creation-add-button"
-            tabIndex={isCreateToggled ? 404 : -1}
+            tabIndex={isCreateToggled ? 100404 : -1}
             onKeyUp={(e) => {
               if (e.code === "Enter") {
                 addTask();
@@ -151,7 +149,7 @@ export const TodoCreationComponent = ({
           <textarea
             placeholder="Description"
             onChange={(e) => handleInput({ e, type: "description" })}
-            tabIndex={isCreateToggled ? 403 : -1}
+            tabIndex={isCreateToggled ? 100403 : -1}
             className="todo-creation-description"
             ref={descriptionRef}
             value={description}
@@ -160,7 +158,7 @@ export const TodoCreationComponent = ({
             type="button"
             onClick={cancelCreation}
             className="todo-creation-cancel-button"
-            tabIndex={isCreateToggled ? 405 : -1}
+            tabIndex={isCreateToggled ? 100405 : -1}
             onKeyUp={(e) => {
               if (e.code === "Escape") {
                 cancelCreation();
