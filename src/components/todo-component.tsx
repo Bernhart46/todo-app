@@ -90,7 +90,6 @@ export const TodoComponent = ({
   };
 
   const toggleDescription = () => {
-    console.log("index: ", child.index);
     if (isDescriptionToggled) {
       setIsDescriptionToggled(false);
       setIsEditMode(false);

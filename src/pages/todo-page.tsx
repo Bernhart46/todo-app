@@ -56,7 +56,6 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
         .filter((child) => child.status === "DONE")
         .sort((a, b) => a.index - b.index)
     : [];
-  console.log(notStartedTodos);
   //base tabIndexes for status groups
   //101 = base, 2 = new group
   const nst_baseIndex = 101 + groupAmount + 2 + 1;
