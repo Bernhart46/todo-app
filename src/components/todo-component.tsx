@@ -150,7 +150,6 @@ export const TodoComponent = ({
           style={{ backgroundColor: getColorByStatus(childStatus) }}
           tabIndex={baseIndex}
         ></div>
-        {/* tabIndex={tIndex + 1} */}
         {!isEditMode ? (
           <div
             className="todo-name disable-selection"
@@ -158,7 +157,6 @@ export const TodoComponent = ({
             onClick={toggleDescription}
             tabIndex={baseIndex + 1}
           >
-            {/* tabIndex={tIndex} */}
             {childName}
           </div>
         ) : (
@@ -170,7 +168,6 @@ export const TodoComponent = ({
             tabIndex={isEditMode ? baseIndex + 1 : -1}
           ></textarea>
         )}
-        {/* tabIndex={isEditMode ? tIndex + 6 : -1} */}
         <div
           className="todo-toggle-arrow disable-selection"
           onClick={toggleDescription}
@@ -194,7 +191,6 @@ export const TodoComponent = ({
             tabIndex={isEditMode ? baseIndex + 2 : -1}
           ></textarea>
         )}
-        {/* tabIndex={isEditMode ? tIndex + 7 : -1} */}
 
         {/* Looks bad I know */}
         <TodoInterfaceBarComponent
@@ -207,7 +203,6 @@ export const TodoComponent = ({
           isDescriptionToggled={isDescriptionToggled}
           tIndex={baseIndex + 2}
         />
-        {/* tIndex={tIndex} */}
       </div>
     </>
   );
