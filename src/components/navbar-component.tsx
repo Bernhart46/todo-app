@@ -83,7 +83,7 @@ const NavbarComponent = () => {
           </NavLink>
         );
       })}
-      {todos.length < 15 && <NavbarCreateGroup />}
+      <NavbarCreateGroup />
     </div>
   );
 };
