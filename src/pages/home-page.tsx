@@ -35,14 +35,13 @@ export const HomePage = () => {
         <li>
           Below the list, there is a todoGroup creator form. You can use it if
           you want to create one. <br />
-          (limit: 15)
         </li>
       </ul>
       <h3>Main area</h3>
       <ul>
         <li>
-          In the main area, you can view the pages. (Home, tasks of the
-          TodoGroups, and the error page)
+          In the main area (where you are reading right now), you can view the
+          pages. (Home, tasks of the TodoGroups, and the error page)
         </li>
         <li>
           Below the title, you can see the list of the Tasks of the TodoGroup.
@@ -52,8 +51,8 @@ export const HomePage = () => {
           group. I think this part is obvious.
         </li>
         <li>
-          The limit for the Tasks is 20. (I try to limit these, because of the
-          localStorage)
+          The limit for the Tasks is theoratically infinite, but it's not
+          because of the limitations of the localStorage (commonly 5MB)
         </li>
       </ul>
       <h3>Tasks</h3>
@@ -65,7 +64,7 @@ export const HomePage = () => {
         </li>
         <li>
           You can click on the status (on focus just press enter) to switch
-          between these statuses.
+          between these statuses. (shift+enter is switching backwards)
         </li>
         <li>If you click on the title-bar, the description will be toggled.</li>
         <li>
@@ -83,17 +82,16 @@ export const HomePage = () => {
       <ul>
         <li>
           On PC you can use this app with a keyboard <br /> (tab = next,
-          shift+tab = previous, enter = apply or use, escape = leave or cancel)
+          shift+tab = previous, enter = apply or use, escape = leave or cancel,
+          shift+enter switch status backwards)
         </li>
       </ul>
 
       <h3>Never tested features</h3>
       <ul>
         <li>
-          I store these data in the localStorage and I know that it has a limit.
-          but I have never tested that. By the way, this is the reason I made
-          the limits, but I have zero idea if they are good or not for the
-          localStorage.
+          I store these data in the localStorage and I know that it has a limit,
+          but I have never tested that.
         </li>
         <li>Try not to exceed it 😛</li>
       </ul>
