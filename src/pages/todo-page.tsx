@@ -114,6 +114,8 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
               />
             );
           })}
+        <br />
+        <HRLine name="Functions" />
         {group && (
           <TodoCreationComponent
             groupName={group.name}

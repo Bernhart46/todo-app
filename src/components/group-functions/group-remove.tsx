@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { setNavbarScrollTop } from "../store/visual/visual-slice";
-import { removeGroup } from "../store/todo/todo-slice";
+import { setNavbarScrollTop } from "../../store/visual/visual-slice";
+import { removeGroup } from "../../store/todo/todo-slice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
+import { AppDispatch } from "../../store";
 import { useEffect, useRef, useState } from "react";
 import "./group-remove.css";
+import { ConfirmChoiceComponent } from "./confirm-choice";
 
 export const GroupRemoveCompontent = ({ groupName }: { groupName: string }) => {
   const navigate = useNavigate();
@@ -47,33 +48,15 @@ export const GroupRemoveCompontent = ({ groupName }: { groupName: string }) => {
       Remove Group
     </div>
   ) : (
-    <div className="confirm-remove-container">
-      <h2>Are you sure, you want to remove the group?</h2>
-      <div
-        role="button"
-        onClick={() => setIsConfirmShowed(false)}
-        onKeyUp={(e) => {
-          if (e.code === "Enter") {
-            setIsConfirmShowed(false);
-          }
-        }}
-        ref={cancelButtonRef}
-        tabIndex={100406}
-      >
-        No, don't remove!
-      </div>
-      <div
-        role="button"
-        onClick={handleRemove}
-        tabIndex={100407}
-        onKeyUp={(e) => {
-          if (e.code === "Enter") {
-            handleRemove();
-          }
-        }}
-      >
-        Yes, remove!
-      </div>
-    </div>
+    <ConfirmChoiceComponent
+      confirmFn={handleRemove}
+      setShowed={setIsConfirmShowed}
+      ref={cancelButtonRef}
+      texts={{
+        question: "Are you sure, you want to remove the group?",
+        cancel: "No, don't remove!",
+        confirm: "Yes, remove!",
+      }}
+    />
   );
 };

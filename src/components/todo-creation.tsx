@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../store";
 import { addNewTask } from "../store/todo/todo-slice";
 import { calcNewHeight } from "../utils/functions";
 import "./todo-creation.css";
-import { GroupRemoveCompontent } from "./group-remove";
+import { GroupRemoveCompontent } from "./group-functions/group-remove";
 
 export const TodoCreationComponent = ({
   groupName,
