@@ -1,11 +1,10 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../store";
-import { addNewTask, removeGroup } from "../store/todo/todo-slice";
-import { setNavbarScrollTop } from "../store/visual/visual-slice";
+import { addNewTask } from "../store/todo/todo-slice";
 import { calcNewHeight } from "../utils/functions";
 import "./todo-creation.css";
+import { GroupRemoveCompontent } from "./group-remove";
 
 export const TodoCreationComponent = ({
   groupName,
@@ -18,7 +17,6 @@ export const TodoCreationComponent = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isError, setIsError] = useState(false);
-  const navigate = useNavigate();
 
   const groups = useSelector((state: RootState) => state.todo);
   const group = groups.find((elem) => elem.name === groupName);
@@ -81,7 +79,7 @@ export const TodoCreationComponent = ({
   return group ? (
     <>
       {!isCreateToggled ? (
-        <div className="todo-buttons">
+        <>
           <div
             className="todo-creation-button"
             tabIndex={100401}
@@ -99,25 +97,8 @@ export const TodoCreationComponent = ({
           >
             Create Task
           </div>
-          <div
-            className="remove-group-button"
-            tabIndex={100406}
-            onClick={() => {
-              dispatch(removeGroup({ groupName }));
-              dispatch(setNavbarScrollTop({ number: 0 }));
-              navigate("/");
-            }}
-            onKeyUp={(e) => {
-              if (e.code === "Enter") {
-                dispatch(removeGroup({ groupName }));
-                dispatch(setNavbarScrollTop({ number: 0 }));
-                navigate("/");
-              }
-            }}
-          >
-            Remove Group
-          </div>
-        </div>
+          <GroupRemoveCompontent groupName={groupName} />
+        </>
       ) : (
         <div className="todo-creation-form">
           <textarea

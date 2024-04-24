@@ -1,10 +1,5 @@
 /* TODO CREATION COMPONENT */
 
-.todo-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .todo-creation-button,
 .remove-group-button {
   line-height: 2.5rem;
@@ -19,11 +14,15 @@
   padding-right: 0.5rem;
   cursor: pointer;
 }
+.todo-creation-button {
+  float: left;
+}
 
 .remove-group-button {
   width: 8.75rem;
   justify-self: end;
   grid-column: 2 / 3;
+  float: right;
 }
 
 .todo-creation-form {
