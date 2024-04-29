@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { TodoComponent } from "../components/todo-component";
-import { TodoCreationComponent } from "../components/todo-creation";
 import { AppDispatch, RootState } from "../store";
 import { setNavbarScrollTop } from "../store/visual/visual-slice";
 import HRLine from "../components/hr-line";
 import { useGetGroupAmount } from "../utils/hooks";
 
 import "./todo-page.css";
+import { GroupFunctionsComponent } from "../components/group-functions/group-functions";
 
 type TodoPageProps = {
   scrollToBottom: () => void;
@@ -116,12 +116,7 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
           })}
         <br />
         <HRLine name="Functions" />
-        {group && (
-          <TodoCreationComponent
-            groupName={group.name}
-            scrollToBottom={scrollToBottom}
-          />
-        )}
+        {group && <GroupFunctionsComponent scrollToBottom={scrollToBottom} />}
       </div>
     </>
   );

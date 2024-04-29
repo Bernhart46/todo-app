@@ -4,7 +4,7 @@ import { removeGroup } from "../../store/todo/todo-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import { useEffect, useRef, useState } from "react";
-import "./group-remove.css";
+import "./group-functions.css";
 import { ConfirmChoiceComponent } from "./confirm-choice";
 
 export const GroupRemoveCompontent = ({ groupName }: { groupName: string }) => {
@@ -12,7 +12,6 @@ export const GroupRemoveCompontent = ({ groupName }: { groupName: string }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isConfirmShowed, setIsConfirmShowed] = useState<boolean | null>(null);
   const originalRemoveButtonRef = useRef<HTMLDivElement | null>(null);
-  const cancelButtonRef = useRef<HTMLDivElement | null>(null);
 
   const handleRemove = () => {
     if (isConfirmShowed) {
@@ -33,10 +32,14 @@ export const GroupRemoveCompontent = ({ groupName }: { groupName: string }) => {
     }
   }, [isConfirmShowed]);
 
+  useEffect(() => {
+    setIsConfirmShowed(false);
+  }, [groupName]);
+
   return !isConfirmShowed ? (
     <div
       className="remove-group-button"
-      tabIndex={100406}
+      tabIndex={100407}
       ref={originalRemoveButtonRef}
       onClick={handleRemove}
       onKeyUp={(e) => {

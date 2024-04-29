@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { addNewTask } from "../store/todo/todo-slice";
 import { calcNewHeight } from "../utils/functions";
 import "./todo-creation.css";
 import { GroupRemoveCompontent } from "./group-functions/group-remove";
+import { ResetAllComponent } from "./group-functions/reset-all";
+import { GroupFunctionsComponent } from "./group-functions/group-functions";
 
 export const TodoCreationComponent = ({
   groupName,
@@ -17,24 +19,18 @@ export const TodoCreationComponent = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isError, setIsError] = useState(false);
+  const titleRef = useRef<HTMLTextAreaElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const groups = useSelector((state: RootState) => state.todo);
   const group = groups.find((elem) => elem.name === groupName);
 
-  const titleRef = useRef<HTMLTextAreaElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const todoCreateButtonRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch<AppDispatch>();
 
   const cancelCreation = () => {
     resetForm();
-  };
-
-  const resetForm = () => {
-    setIsError(false);
-    setTitle("");
-    setDescription("");
-    setIsCreateToggled(false);
   };
 
   const addTask = () => {
@@ -50,6 +46,23 @@ export const TodoCreationComponent = ({
       })
     );
     resetForm();
+  };
+
+  useEffect(() => {
+    if (!isCreateToggled) {
+      todoCreateButtonRef.current?.focus();
+    }
+  }, [isCreateToggled]);
+
+  useEffect(() => {
+    setIsCreateToggled(false);
+  }, [groupName]);
+
+  const resetForm = () => {
+    setIsError(false);
+    setTitle("");
+    setDescription("");
+    setIsCreateToggled(false);
   };
 
   type handleInputArguments = {
@@ -78,10 +91,11 @@ export const TodoCreationComponent = ({
 
   return group ? (
     <>
-      {!isCreateToggled ? (
+      {/* {!isCreateToggled ? (
         <>
           <div
             className="todo-creation-button"
+            ref={todoCreateButtonRef}
             tabIndex={100401}
             onClick={() => {
               setIsCreateToggled(!isCreateToggled);
@@ -97,7 +111,6 @@ export const TodoCreationComponent = ({
           >
             Create Task
           </div>
-          <GroupRemoveCompontent groupName={groupName} />
         </>
       ) : (
         <div className="todo-creation-form">
@@ -113,8 +126,8 @@ export const TodoCreationComponent = ({
               outlineColor: isError ? "red" : "white",
             }}
           ></textarea>
-          <button
-            type="button"
+          <div
+            role="button"
             onClick={addTask}
             className="todo-creation-add-button"
             tabIndex={isCreateToggled ? 100404 : -1}
@@ -125,7 +138,7 @@ export const TodoCreationComponent = ({
             }}
           >
             Add
-          </button>
+          </div>
 
           <textarea
             placeholder="Description"
@@ -135,21 +148,24 @@ export const TodoCreationComponent = ({
             ref={descriptionRef}
             value={description}
           ></textarea>
-          <button
-            type="button"
+          <div
+            role="button"
             onClick={cancelCreation}
             className="todo-creation-cancel-button"
             tabIndex={isCreateToggled ? 100405 : -1}
             onKeyUp={(e) => {
-              if (e.code === "Escape") {
+              if (e.code === "Enter") {
                 cancelCreation();
               }
             }}
           >
             Cancel
-          </button>
+          </div>
         </div>
-      )}
+      )} */}
+
+      {/* <ResetAllComponent groupName={groupName} />
+      <GroupRemoveCompontent groupName={groupName} /> */}
     </>
   ) : (
     <h1>ERROR</h1>

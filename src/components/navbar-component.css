@@ -13,6 +13,7 @@
   height: 2.5rem;
   cursor: pointer;
   text-align: center;
+  overflow: hidden;
 }
 .nav-button:focus {
   background-color: #3d3d3d;

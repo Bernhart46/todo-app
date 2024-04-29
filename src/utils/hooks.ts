@@ -10,6 +10,7 @@ import {
   todoGroup,
 } from "../store/todo/todo-slice";
 import { setStateLoaded } from "../store/visual/visual-slice";
+import { useParams } from "react-router-dom";
 
 export const useWindowSize = () => {
   const [size, setSize] = useState({
@@ -33,6 +34,15 @@ export const useGetGroupAmount = () => {
   const length = useSelector((state: RootState) => state.todo.length);
 
   return length;
+};
+
+export const useGetGroupName = () => {
+  const { todo } = useParams();
+
+  const state = useSelector((state: RootState) => state).todo;
+  const group = state.find((el) => el.name === todo);
+  const groupName = group?.name;
+  return groupName ? groupName : null;
 };
 
 type useChangeIndexProp = {

@@ -166,8 +166,9 @@ export const todoSlice = createSlice({
       const inProgressGroupLength = group.children.filter(
         (x) => x.status === "IN_PROGRESS"
       ).length;
-      const doneGroupLength = group.children.filter((x) => x.status === "DONE")
-        .length;
+      const doneGroupLength = group.children.filter(
+        (x) => x.status === "DONE"
+      ).length;
 
       switch (child.status) {
         case "NOT_STARTED":
@@ -224,6 +225,24 @@ export const todoSlice = createSlice({
 
       return [...state].filter((elem) => elem.name !== groupName);
     },
+    renameGroup: (
+      state,
+      action: PayloadAction<{ groupName: string; newName: string }>
+    ) => {
+      const { groupName, newName } = action.payload;
+
+      const groupIndex = state.findIndex((x) => x.name === groupName);
+      if (state[groupIndex].name === newName) return;
+      state[groupIndex].name = newName;
+    },
+    resetGroup: (state, action: PayloadAction<{ groupName: string }>) => {
+      const { groupName } = action.payload;
+      const group = getGroup(state, groupName);
+      if (!group) return;
+      group.children.forEach((child) => {
+        child.status = "NOT_STARTED";
+      });
+    },
   },
 });
 
@@ -248,5 +267,7 @@ export const {
   removeGroup,
   loadState,
   setNewChildIndex,
+  resetGroup,
+  renameGroup,
 } = todoSlice.actions;
 export default todoSlice.reducer;
