@@ -74,6 +74,11 @@
   cursor: pointer;
   border-radius: 0.5rem;
   text-align: center;
+
+  /* REMOVE SELECTION */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .todo-creation__add-button:hover,
