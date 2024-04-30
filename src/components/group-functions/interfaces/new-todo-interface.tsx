@@ -5,7 +5,7 @@ import { calcNewHeight } from "../../../utils/functions";
 import { useRef, useState } from "react";
 import { InterfaceProps } from "./interface-types";
 
-import "../../todo-creation.css";
+import "./interface.css";
 
 type handleInputArguments = {
   e: React.ChangeEvent<HTMLTextAreaElement>;
@@ -69,12 +69,12 @@ export const NewTodoInterface = (props: InterfaceProps) => {
   };
 
   return (
-    <div className="todo-creation-form">
+    <div className="todo-creation__container">
       <textarea
         placeholder="Title"
         onChange={(e) => handleInput({ e, type: "title" })}
         tabIndex={isToggled ? 100402 : -1}
-        className="todo-creation-title"
+        className="todo-creation__title"
         ref={titleRef}
         value={title}
         style={{
@@ -85,7 +85,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
       <div
         role="button"
         onClick={addTask}
-        className="todo-creation-add-button"
+        className="todo-creation__add-button"
         tabIndex={isToggled ? 100404 : -1}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
@@ -100,14 +100,14 @@ export const NewTodoInterface = (props: InterfaceProps) => {
         placeholder="Description"
         onChange={(e) => handleInput({ e, type: "description" })}
         tabIndex={isToggled ? 100403 : -1}
-        className="todo-creation-description"
+        className="todo-creation__description"
         ref={descriptionRef}
         value={description}
       ></textarea>
       <div
         role="button"
         onClick={cancelCreation}
-        className="todo-creation-cancel-button"
+        className="todo-creation__cancel-button"
         tabIndex={isToggled ? 100405 : -1}
         onKeyUp={(e) => {
           if (e.code === "Enter") {

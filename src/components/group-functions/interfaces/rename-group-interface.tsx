@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { InterfaceProps } from "./interface-types";
-import "../../todo-creation.css"; //Need to rearrange
+import "./interface.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store";
 import { renameGroup } from "../../../store/todo/todo-slice";
@@ -35,7 +35,7 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
   };
 
   return (
-    <div className="rename-group__form">
+    <div className="rename-group__container">
       <input
         type="text"
         placeholder="New Group Name"
