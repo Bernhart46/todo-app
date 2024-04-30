@@ -4,7 +4,6 @@ import { InterfaceProps } from "./interface-types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store";
 import { resetGroup } from "../../../store/todo/todo-slice";
-import { useGetGroupName } from "../../../utils/hooks";
 
 export const ResetStatusInterface = (props: InterfaceProps) => {
   const { groupName, setIsToggled } = props;
