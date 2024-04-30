@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store";
 import { addNewTask } from "../../../store/todo/todo-slice";
 import { calcNewHeight } from "../../../utils/functions";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InterfaceProps } from "./interface-types";
 
 import "./interface.css";
@@ -13,15 +13,17 @@ type handleInputArguments = {
 };
 
 export const NewTodoInterface = (props: InterfaceProps) => {
-  const { groupName, isToggled, setIsToggled } = props;
+  const { groupName, setIsToggled } = props;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isError, setIsError] = useState(false);
-  //IDK why are there refs, maybe I can use it for the tab navigation
-  const titleRef = useRef<HTMLTextAreaElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const titleRef = useRef<HTMLTextAreaElement | null>(null);
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
 
   const resetForm = () => {
     setIsError(false);
@@ -73,7 +75,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
       <textarea
         placeholder="Title"
         onChange={(e) => handleInput({ e, type: "title" })}
-        tabIndex={isToggled ? 100402 : -1}
+        tabIndex={100004}
         className="todo-creation__title"
         ref={titleRef}
         value={title}
@@ -86,7 +88,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
         role="button"
         onClick={addTask}
         className="todo-creation__add-button"
-        tabIndex={isToggled ? 100404 : -1}
+        tabIndex={100006}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
             addTask();
@@ -99,16 +101,15 @@ export const NewTodoInterface = (props: InterfaceProps) => {
       <textarea
         placeholder="Description"
         onChange={(e) => handleInput({ e, type: "description" })}
-        tabIndex={isToggled ? 100403 : -1}
+        tabIndex={100005}
         className="todo-creation__description"
-        ref={descriptionRef}
         value={description}
       ></textarea>
       <div
         role="button"
         onClick={cancelCreation}
         className="todo-creation__cancel-button"
-        tabIndex={isToggled ? 100405 : -1}
+        tabIndex={100007}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
             cancelCreation();

@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import "./group-functions.css";
 
 type ConfirmProps = {
@@ -11,11 +11,13 @@ type ConfirmProps = {
   };
 };
 
-export const ConfirmChoiceComponent = forwardRef<
-  HTMLDivElement | null,
-  ConfirmProps
->((props: ConfirmProps, ref) => {
+export const ConfirmChoiceComponent = (props: ConfirmProps) => {
   const { confirmFn, setShowed, texts } = props;
+  const autoFocusRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    autoFocusRef.current?.focus();
+  }, []);
 
   return (
     <>
@@ -25,13 +27,14 @@ export const ConfirmChoiceComponent = forwardRef<
           role="button"
           className="confirm-choice__button"
           onClick={() => setShowed(false)}
+          ref={autoFocusRef}
           onKeyUp={(e) => {
             if (e.code === "Enter") {
               setShowed(false);
             }
           }}
-          ref={ref}
-          tabIndex={100410}
+          // ref={ref}
+          tabIndex={100004}
         >
           {texts.cancel}
         </div>
@@ -39,7 +42,7 @@ export const ConfirmChoiceComponent = forwardRef<
           role="button"
           className="confirm-choice__button"
           onClick={confirmFn}
-          tabIndex={100411}
+          tabIndex={100005}
           onKeyUp={(e) => {
             if (e.code === "Enter") {
               confirmFn();
@@ -51,4 +54,4 @@ export const ConfirmChoiceComponent = forwardRef<
       </div>
     </>
   );
-});
+};

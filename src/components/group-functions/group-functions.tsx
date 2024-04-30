@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./group-functions.css";
 import { NewTodoInterface } from "./interfaces/new-todo-interface";
 import { ResetStatusInterface } from "./interfaces/reset-status-interface";
@@ -15,6 +15,12 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [editContent, setEditContent] = useState<React.ReactNode>("");
+  const [type, setType] = useState("");
+
+  const newTodoRef = useRef<HTMLDivElement | null>(null);
+  const resetStatusRef = useRef<HTMLDivElement | null>(null);
+  const renameGroupRef = useRef<HTMLDivElement | null>(null);
+  const removeGroupRef = useRef<HTMLDivElement | null>(null);
 
   const groupName = useGetGroupName();
   if (!groupName) return null;
@@ -23,13 +29,31 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
     setIsEditMode(false);
   }, [groupName]);
 
-  const handleButtonClick = (type: string) => {
+  useEffect(() => {
+    if (isEditMode) return;
+
     switch (type) {
+      case "new-todo":
+        newTodoRef.current?.focus();
+        break;
+      case "reset-all":
+        resetStatusRef.current?.focus();
+        break;
+      case "rename-group":
+        renameGroupRef.current?.focus();
+        break;
+      case "remove-group":
+        removeGroupRef.current?.focus();
+        break;
+    }
+  }, [isEditMode]);
+
+  const handleButtonClick = (t: string) => {
+    switch (t) {
       case "new-todo":
         setEditContent(
           <NewTodoInterface
             groupName={groupName}
-            isToggled={isEditMode}
             setIsToggled={setIsEditMode}
           />
         );
@@ -38,7 +62,6 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
         setEditContent(
           <ResetStatusInterface
             groupName={groupName}
-            isToggled={isEditMode}
             setIsToggled={setIsEditMode}
           />
         );
@@ -47,7 +70,6 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
         setEditContent(
           <RenameGroupInterface
             groupName={groupName}
-            isToggled={isEditMode}
             setIsToggled={setIsEditMode}
           />
         );
@@ -56,13 +78,13 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
         setEditContent(
           <RemoveGroupInterface
             groupName={groupName}
-            isToggled={isEditMode}
             setIsToggled={setIsEditMode}
           />
         );
         break;
     }
     setIsEditMode(true);
+    setType(t);
     scrollToBottom();
   };
 
@@ -72,24 +94,56 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
         <div
           className="group-functions__button"
           onClick={() => handleButtonClick("new-todo")}
+          tabIndex={100000}
+          role="button"
+          ref={newTodoRef}
+          onKeyUp={(e) => {
+            if (e.code === "Enter") {
+              handleButtonClick("new-todo");
+            }
+          }}
         >
           New Todo
         </div>
         <div
           className="group-functions__button"
           onClick={() => handleButtonClick("reset-all")}
+          tabIndex={100001}
+          role="button"
+          ref={resetStatusRef}
+          onKeyUp={(e) => {
+            if (e.code === "Enter") {
+              handleButtonClick("reset-all");
+            }
+          }}
         >
           Reset All Status
         </div>
         <div
           className="group-functions__button"
           onClick={() => handleButtonClick("rename-group")}
+          tabIndex={100002}
+          role="button"
+          ref={renameGroupRef}
+          onKeyUp={(e) => {
+            if (e.code === "Enter") {
+              handleButtonClick("rename-group");
+            }
+          }}
         >
           Rename Group
         </div>
         <div
           className="group-functions__button"
           onClick={() => handleButtonClick("remove-group")}
+          tabIndex={100003}
+          role="button"
+          ref={removeGroupRef}
+          onKeyUp={(e) => {
+            if (e.code === "Enter") {
+              handleButtonClick("remove-group");
+            }
+          }}
         >
           Remove Group
         </div>
