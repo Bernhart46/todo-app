@@ -7,6 +7,7 @@ import { RenameGroupInterface } from "./interfaces/rename-group-interface";
 import { useGetGroupName } from "../../utils/hooks";
 import { GroupFunctionButton } from "./group-function-button";
 import { RemoveTodosInterface } from "./interfaces/remove-todos-interface";
+import { SortTodosInterface } from "./interfaces/sort-todos-interface";
 
 type GroupFunctionsProps = {
   scrollToBottom: () => void;
@@ -24,6 +25,7 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
   const renameGroupRef = useRef<HTMLDivElement | null>(null);
   const removeGroupRef = useRef<HTMLDivElement | null>(null);
   const removeTodosRef = useRef<HTMLDivElement | null>(null);
+  const sortTodosRef = useRef<HTMLDivElement | null>(null);
 
   const groupName = useGetGroupName();
   if (!groupName) return null;
@@ -75,6 +77,16 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
       ref: removeTodosRef,
       content: (
         <RemoveTodosInterface
+          groupName={groupName}
+          setIsToggled={setIsEditMode}
+        />
+      ),
+    },
+    {
+      id: "sort-todos",
+      ref: sortTodosRef,
+      content: (
+        <SortTodosInterface
           groupName={groupName}
           setIsToggled={setIsEditMode}
         />
@@ -141,6 +153,13 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
           tabIndex={100004}
         >
           Remove Todos
+        </GroupFunctionButton>
+        <GroupFunctionButton
+          event={() => handleButtonClick("sort-todos")}
+          r={sortTodosRef}
+          tabIndex={100005}
+        >
+          Sort Todos
         </GroupFunctionButton>
       </section>
       {isEditMode && (
