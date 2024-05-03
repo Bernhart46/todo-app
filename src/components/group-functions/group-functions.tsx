@@ -5,6 +5,7 @@ import { ResetStatusInterface } from "./interfaces/reset-status-interface";
 import { RemoveGroupInterface } from "./interfaces/remove-group-interface";
 import { RenameGroupInterface } from "./interfaces/rename-group-interface";
 import { useGetGroupName } from "../../utils/hooks";
+import { GroupFunctionButton } from "./group-function-button";
 
 type GroupFunctionsProps = {
   scrollToBottom: () => void;
@@ -91,62 +92,34 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
   return (
     <div className="group-functions">
       <section className="group-functions__buttons">
-        <div
-          className="group-functions__button"
-          onClick={() => handleButtonClick("new-todo")}
+        <GroupFunctionButton
+          event={() => handleButtonClick("new-todo")}
+          r={newTodoRef}
           tabIndex={100000}
-          role="button"
-          ref={newTodoRef}
-          onKeyUp={(e) => {
-            if (e.code === "Enter") {
-              handleButtonClick("new-todo");
-            }
-          }}
         >
           New Todo
-        </div>
-        <div
-          className="group-functions__button"
-          onClick={() => handleButtonClick("reset-all")}
+        </GroupFunctionButton>
+        <GroupFunctionButton
+          event={() => handleButtonClick("reset-all")}
+          r={resetStatusRef}
           tabIndex={100001}
-          role="button"
-          ref={resetStatusRef}
-          onKeyUp={(e) => {
-            if (e.code === "Enter") {
-              handleButtonClick("reset-all");
-            }
-          }}
         >
           Reset All Status
-        </div>
-        <div
-          className="group-functions__button"
-          onClick={() => handleButtonClick("rename-group")}
+        </GroupFunctionButton>
+        <GroupFunctionButton
+          event={() => handleButtonClick("rename-group")}
+          r={renameGroupRef}
           tabIndex={100002}
-          role="button"
-          ref={renameGroupRef}
-          onKeyUp={(e) => {
-            if (e.code === "Enter") {
-              handleButtonClick("rename-group");
-            }
-          }}
         >
           Rename Group
-        </div>
-        <div
-          className="group-functions__button"
-          onClick={() => handleButtonClick("remove-group")}
+        </GroupFunctionButton>
+        <GroupFunctionButton
+          event={() => handleButtonClick("remove-group")}
+          r={removeGroupRef}
           tabIndex={100003}
-          role="button"
-          ref={removeGroupRef}
-          onKeyUp={(e) => {
-            if (e.code === "Enter") {
-              handleButtonClick("remove-group");
-            }
-          }}
         >
           Remove Group
-        </div>
+        </GroupFunctionButton>
       </section>
       {isEditMode && (
         <section className="group-functions__editor">{editContent}</section>
