@@ -70,6 +70,7 @@ const NavbarComponent = () => {
             className="nav-button"
             key={todo.name}
             to={todo.name}
+            title={todo.name}
             tabIndex={tIndex}
             onClick={() => handleClick(todo.name)}
             onKeyUp={(e) =>
