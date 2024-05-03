@@ -33,15 +33,15 @@ export const SortTodosInterface = (props: InterfaceProps) => {
   const sortOptions = [
     {
       value: "random",
-      title: "Random",
+      title: "Random (Dynamic)",
     },
     {
       value: "a-z",
-      title: "A-z",
+      title: "A-z (Static)",
     },
     {
       value: "z-a",
-      title: "Z-a",
+      title: "Z-a (Static)",
     },
   ];
 
