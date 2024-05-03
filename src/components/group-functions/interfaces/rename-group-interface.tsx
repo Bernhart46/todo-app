@@ -45,7 +45,7 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
         type="text"
         placeholder="New Group Name"
         onChange={(e) => handleInput(e)}
-        tabIndex={100004}
+        tabIndex={200004}
         className="rename-group__input"
         value={newName}
         ref={inputRef}
@@ -58,7 +58,7 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
         role="button"
         onClick={handleRename}
         className="rename-group__button"
-        tabIndex={100005}
+        tabIndex={200005}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
             handleRename();
@@ -71,7 +71,7 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
         role="button"
         onClick={() => setIsToggled(false)}
         className="rename-group__button"
-        tabIndex={100005}
+        tabIndex={200005}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
             setIsToggled(false);

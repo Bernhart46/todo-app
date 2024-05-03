@@ -75,7 +75,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
       <textarea
         placeholder="Title"
         onChange={(e) => handleInput({ e, type: "title" })}
-        tabIndex={100004}
+        tabIndex={200004}
         className="todo-creation__title"
         ref={titleRef}
         value={title}
@@ -88,7 +88,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
         role="button"
         onClick={addTask}
         className="todo-creation__add-button"
-        tabIndex={100006}
+        tabIndex={200006}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
             addTask();
@@ -101,7 +101,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
       <textarea
         placeholder="Description"
         onChange={(e) => handleInput({ e, type: "description" })}
-        tabIndex={100005}
+        tabIndex={200005}
         className="todo-creation__description"
         value={description}
       ></textarea>
@@ -109,7 +109,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
         role="button"
         onClick={cancelCreation}
         className="todo-creation__cancel-button"
-        tabIndex={100007}
+        tabIndex={200007}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
             cancelCreation();

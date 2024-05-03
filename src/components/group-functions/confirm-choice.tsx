@@ -34,7 +34,7 @@ export const ConfirmChoiceComponent = (props: ConfirmProps) => {
             }
           }}
           // ref={ref}
-          tabIndex={100004}
+          tabIndex={200004}
         >
           {texts.cancel}
         </div>
@@ -42,7 +42,7 @@ export const ConfirmChoiceComponent = (props: ConfirmProps) => {
           role="button"
           className="confirm-choice__button"
           onClick={confirmFn}
-          tabIndex={100005}
+          tabIndex={200005}
           onKeyUp={(e) => {
             if (e.code === "Enter") {
               confirmFn();
