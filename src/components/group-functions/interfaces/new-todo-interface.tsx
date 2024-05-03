@@ -86,7 +86,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
       <div
         role="button"
         onClick={addTask}
-        className="todo-creation__add-button"
+        className="todo-creation__add-button disable-selection"
         tabIndex={200006}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
@@ -107,7 +107,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
       <div
         role="button"
         onClick={cancelCreation}
-        className="todo-creation__cancel-button"
+        className="todo-creation__cancel-button disable-selection"
         tabIndex={200007}
         onKeyUp={(e) => {
           if (e.code === "Enter") {

@@ -56,7 +56,7 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
       <div
         role="button"
         onClick={handleRename}
-        className="rename-group__button"
+        className="rename-group__button disable-selection"
         tabIndex={200005}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
@@ -69,7 +69,7 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
       <div
         role="button"
         onClick={() => setIsToggled(false)}
-        className="rename-group__button"
+        className="rename-group__button disable-selection"
         tabIndex={200005}
         onKeyUp={(e) => {
           if (e.code === "Enter") {

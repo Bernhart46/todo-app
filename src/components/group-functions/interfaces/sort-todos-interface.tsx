@@ -108,7 +108,7 @@ export const SortTodosInterface = (props: InterfaceProps) => {
       <div
         role="button"
         onClick={handleSave}
-        className="todo-sort__save-button"
+        className="todo-sort__save-button disable-selection"
         tabIndex={200009}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
@@ -121,7 +121,7 @@ export const SortTodosInterface = (props: InterfaceProps) => {
       <div
         role="button"
         onClick={handleCancel}
-        className="todo-sort__cancel-button"
+        className="todo-sort__cancel-button disable-selection"
         tabIndex={200010}
         onKeyUp={(e) => {
           if (e.code === "Enter") {
