@@ -5,6 +5,7 @@ import {
   removeChild,
   changeStatus,
   setNewChildIndex,
+  statuses,
 } from "../store/todo/todo-slice";
 import { useChangeIndex } from "../utils/hooks";
 import { calcNewHeight } from "../utils/functions";
@@ -208,16 +209,16 @@ export const TodoComponent = ({
   );
 };
 
-const getColorByStatus = (status: "NOT_STARTED" | "IN_PROGRESS" | "DONE") => {
-  if (status === "NOT_STARTED") {
+const getColorByStatus = (status: statuses) => {
+  if (status === "not_started") {
     return "azure";
   }
 
-  if (status === "IN_PROGRESS") {
+  if (status === "in_progress") {
     return "orange";
   }
 
-  if (status === "DONE") {
+  if (status === "done") {
     return "ForestGreen";
   }
 };

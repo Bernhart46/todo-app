@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { InterfaceProps } from "./interface-types";
 
 import "./interface.css";
+import { useAutoFocusElement } from "../../../utils/hooks";
 
 type handleInputArguments = {
   e: React.ChangeEvent<HTMLTextAreaElement>;
@@ -21,9 +22,7 @@ export const NewTodoInterface = (props: InterfaceProps) => {
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    titleRef.current?.focus();
-  }, []);
+  useAutoFocusElement(titleRef);
 
   const resetForm = () => {
     setIsError(false);

@@ -53,21 +53,26 @@ type useChangeIndexProp = {
 
 export const useChangeIndex = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const state = useSelector((state: RootState) => state).todo;
 
   const func = ({ event, groupName, childId }: useChangeIndexProp) => {
-    if (event.code !== "ArrowUp" && event.code !== "ArrowDown") return;
+    const group = state.find((group) => group.name === groupName);
+    if (!group) return;
+    const child = group.children.find((child) => child.id === childId);
+    if (child) {
+      if (group.sort[child.status] !== "random") return;
 
-    if (event.code === "ArrowUp") {
-      if (childId) {
-        dispatch(moveChildUp({ groupName, childId }));
-      } else {
+      if (event.code === "ArrowUp") {
+        dispatch(moveChildUp({ groupName: group.name, childId: child.id }));
+      }
+      if (event.code === "ArrowDown") {
+        dispatch(moveChildDown({ groupName: group.name, childId: child.id }));
+      }
+    } else {
+      if (event.code === "ArrowUp") {
         dispatch(moveGroupUp({ groupName }));
       }
-    }
-    if (event.code === "ArrowDown") {
-      if (childId) {
-        dispatch(moveChildDown({ groupName, childId }));
-      } else {
+      if (event.code === "ArrowDown") {
         dispatch(moveGroupDown({ groupName }));
       }
     }
@@ -93,17 +98,22 @@ export const useLoad = () => {
           id: 2826651,
           name: "Test Item 1",
           description: "Just some description to the Test Item 1.",
-          status: "NOT_STARTED",
+          status: "not_started",
           index: 0,
         },
         {
           id: 5368738,
           name: "Test Item 2",
           description: "Just some description to the Test Item 2.",
-          status: "IN_PROGRESS",
+          status: "in_progress",
           index: 0,
         },
       ],
+      sort: {
+        not_started: "random",
+        in_progress: "random",
+        done: "random",
+      },
     },
   ];
 
@@ -119,4 +129,12 @@ export const useLoad = () => {
   };
 
   return func;
+};
+
+export const useAutoFocusElement = (
+  elementRef: React.MutableRefObject<any>
+) => {
+  useEffect(() => {
+    elementRef.current?.focus();
+  }, []);
 };

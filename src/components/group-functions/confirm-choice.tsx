@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useRef } from "react";
 import "./group-functions.css";
+import { useAutoFocusElement } from "../../utils/hooks";
 
 type ConfirmProps = {
   confirmFn: () => void;
@@ -15,17 +16,15 @@ export const ConfirmChoiceComponent = (props: ConfirmProps) => {
   const { confirmFn, setShowed, texts } = props;
   const autoFocusRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    autoFocusRef.current?.focus();
-  }, []);
+  useAutoFocusElement(autoFocusRef);
 
   return (
     <>
-      <h2 className="confirm-choice__question">{texts.question}</h2>
+      <h2 className="confirm-choice__question ">{texts.question}</h2>
       <div className="confirm-choice__buttons">
         <div
           role="button"
-          className="confirm-choice__button"
+          className="confirm-choice__button disable-selection"
           onClick={() => setShowed(false)}
           ref={autoFocusRef}
           onKeyUp={(e) => {
@@ -33,14 +32,13 @@ export const ConfirmChoiceComponent = (props: ConfirmProps) => {
               setShowed(false);
             }
           }}
-          // ref={ref}
           tabIndex={200004}
         >
           {texts.cancel}
         </div>
         <div
           role="button"
-          className="confirm-choice__button"
+          className="confirm-choice__button disable-selection"
           onClick={confirmFn}
           tabIndex={200005}
           onKeyUp={(e) => {

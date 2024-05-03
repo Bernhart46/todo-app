@@ -11,6 +11,12 @@
   -webkit-text-size-adjust: 100%;
 }
 
+*:focus-visible {
+  outline: solid aqua 3px !important;
+  position: relative;
+  z-index: 999;
+}
+
 body {
   margin: 0;
   box-sizing: border-box;

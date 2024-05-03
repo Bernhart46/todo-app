@@ -10,7 +10,7 @@ export const GroupFunctionButton = (props: ButtonProps) => {
 
   return (
     <div
-      className="group-functions__button"
+      className="group-functions__button disable-selection"
       onClick={event}
       role="button"
       tabIndex={tabIndex}

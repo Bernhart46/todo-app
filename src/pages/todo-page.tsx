@@ -9,6 +9,7 @@ import { useGetGroupAmount } from "../utils/hooks";
 
 import "./todo-page.css";
 import { GroupFunctionsComponent } from "../components/group-functions/group-functions";
+import { statuses, todoChild } from "../store/todo/todo-slice";
 
 type TodoPageProps = {
   scrollToBottom: () => void;
@@ -29,6 +30,7 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
   const state = useSelector((state: RootState) => state);
 
   const group = state.todo.find((el) => el.name === todo);
+  const sorts = group?.sort;
 
   useEffect(() => {
     if (!group && state.visual.isStateLoaded) {
@@ -41,20 +43,44 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
       );
     }
   }, [todo, group, state.visual.isStateLoaded]);
+
+  function sort(a: todoChild, b: todoChild, type: statuses) {
+    if (!sorts) return a.index - b.index;
+    if (sorts[type] === "a-z") {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    }
+    if (sorts[type] === "z-a") {
+      if (a.name < b.name) {
+        return 1;
+      }
+      if (a.name > b.name) {
+        return -1;
+      }
+      return 0;
+    }
+    return a.index - b.index;
+  }
+
   const notStartedTodos = group
     ? group.children
-        .filter((child) => child.status === "NOT_STARTED")
-        .sort((a, b) => a.index - b.index)
+        .filter((child) => child.status === "not_started")
+        .sort((a, b) => sort(a, b, "not_started"))
     : [];
   const inProgress = group
     ? group.children
-        .filter((child) => child.status === "IN_PROGRESS")
-        .sort((a, b) => a.index - b.index)
+        .filter((child) => child.status === "in_progress")
+        .sort((a, b) => sort(a, b, "in_progress"))
     : [];
   const done = group
     ? group.children
-        .filter((child) => child.status === "DONE")
-        .sort((a, b) => a.index - b.index)
+        .filter((child) => child.status === "done")
+        .sort((a, b) => sort(a, b, "done"))
     : [];
   //base tabIndexes for status groups
   //101 = base, 2 = new group

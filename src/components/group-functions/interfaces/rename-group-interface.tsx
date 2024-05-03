@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store";
 import { renameGroup } from "../../../store/todo/todo-slice";
 import { useNavigate } from "react-router-dom";
+import { useAutoFocusElement } from "../../../utils/hooks";
 
 export const RenameGroupInterface = (props: InterfaceProps) => {
   const { groupName, setIsToggled } = props;
@@ -17,9 +18,7 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
   //isError is just for visuals
   const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  useAutoFocusElement(inputRef);
 
   const handleRename = () => {
     if (newName.length === 0) return;

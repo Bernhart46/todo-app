@@ -1,15 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type statuses = "not_started" | "in_progress" | "done";
+export type sorts = "random" | "a-z" | "z-a";
+
 export type todoChild = {
   id: number;
   name: string;
   description: string;
-  status: "NOT_STARTED" | "IN_PROGRESS" | "DONE";
+  status: statuses;
   index: number;
 };
 
 export type todoGroup = {
   name: string;
   children: todoChild[];
+  sort: {
+    not_started: sorts;
+    in_progress: sorts;
+    done: sorts;
+  };
 };
 
 const initialState: todoGroup[] = [];
@@ -26,6 +35,11 @@ export const todoSlice = createSlice({
         state.push({
           name: action.payload,
           children: [],
+          sort: {
+            not_started: "random",
+            in_progress: "random",
+            done: "random",
+          },
         });
       }
     },
@@ -119,14 +133,14 @@ export const todoSlice = createSlice({
       if (!group) return;
 
       const notStartedGroupLength = group.children.filter(
-        (x) => x.status === "NOT_STARTED"
+        (x) => x.status === "not_started"
       ).length;
 
       group.children.push({
         id: Date.now(),
         name: title,
         description: description,
-        status: "NOT_STARTED",
+        status: "not_started",
         index: notStartedGroupLength,
       });
     },
@@ -161,40 +175,40 @@ export const todoSlice = createSlice({
       if (!child) return;
 
       const notStartedGroupLength = group.children.filter(
-        (x) => x.status === "NOT_STARTED"
+        (x) => x.status === "not_started"
       ).length;
       const inProgressGroupLength = group.children.filter(
-        (x) => x.status === "IN_PROGRESS"
+        (x) => x.status === "in_progress"
       ).length;
       const doneGroupLength = group.children.filter(
-        (x) => x.status === "DONE"
+        (x) => x.status === "done"
       ).length;
 
       switch (child.status) {
-        case "NOT_STARTED":
+        case "not_started":
           if (direction === "next") {
-            child.status = "IN_PROGRESS";
+            child.status = "in_progress";
             child.index = inProgressGroupLength;
           } else {
-            child.status = "DONE";
+            child.status = "done";
             child.index = doneGroupLength;
           }
           break;
-        case "IN_PROGRESS":
+        case "in_progress":
           if (direction === "next") {
-            child.status = "DONE";
+            child.status = "done";
             child.index = doneGroupLength;
           } else {
-            child.status = "NOT_STARTED";
+            child.status = "not_started";
             child.index = notStartedGroupLength;
           }
           break;
-        case "DONE":
+        case "done":
           if (direction === "next") {
-            child.status = "NOT_STARTED";
+            child.status = "not_started";
             child.index = notStartedGroupLength;
           } else {
-            child.status = "IN_PROGRESS";
+            child.status = "in_progress";
             child.index = inProgressGroupLength;
           }
           break;
@@ -248,8 +262,26 @@ export const todoSlice = createSlice({
       const group = getGroup(state, groupName);
       if (!group) return;
       group.children.forEach((child) => {
-        child.status = "NOT_STARTED";
+        child.status = "not_started";
       });
+    },
+    setGroupSort: (
+      state,
+      action: PayloadAction<{
+        groupName: string;
+        sorts: {
+          not_started: sorts;
+          in_progress: sorts;
+          done: sorts;
+        };
+      }>
+    ) => {
+      const { groupName, sorts } = action.payload;
+
+      const group = getGroup(state, groupName);
+      if (!group) return;
+
+      group.sort = sorts;
     },
   },
 });
@@ -278,5 +310,6 @@ export const {
   resetGroup,
   renameGroup,
   removeTodos,
+  setGroupSort,
 } = todoSlice.actions;
 export default todoSlice.reducer;

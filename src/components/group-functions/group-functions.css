@@ -39,11 +39,6 @@
   background-color: #5a5a5a;
   border-radius: 0.5rem;
   cursor: pointer;
-
-  /* REMOVE SELECTION */
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
 }
 @media (max-width: 450px) {
   .group-functions__button {
