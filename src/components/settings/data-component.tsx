@@ -28,7 +28,7 @@ export const DataComponent = () => {
       // This is a regular expression to identify carriage
       // Returns and line breaks
       const lines = file.split(/\r\n|\n/);
-      load(lines.join());
+      load(lines[0]);
     };
 
     reader.onerror = (e) => console.log(e);
