@@ -6,6 +6,7 @@ import { RemoveGroupInterface } from "./interfaces/remove-group-interface";
 import { RenameGroupInterface } from "./interfaces/rename-group-interface";
 import { useGetGroupName } from "../../utils/hooks";
 import { GroupFunctionButton } from "./group-function-button";
+import { RemoveTodosInterface } from "./interfaces/remove-todos-interface";
 
 type GroupFunctionsProps = {
   scrollToBottom: () => void;
@@ -22,6 +23,7 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
   const resetStatusRef = useRef<HTMLDivElement | null>(null);
   const renameGroupRef = useRef<HTMLDivElement | null>(null);
   const removeGroupRef = useRef<HTMLDivElement | null>(null);
+  const removeTodosRef = useRef<HTMLDivElement | null>(null);
 
   const groupName = useGetGroupName();
   if (!groupName) return null;
@@ -29,7 +31,7 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
   useEffect(() => {
     setIsEditMode(false);
   }, [groupName]);
-
+  //Refactor the switch case here. Make the button types and refs into an object and make it more "reusable".
   useEffect(() => {
     if (isEditMode) return;
 
@@ -45,6 +47,9 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
         break;
       case "remove-group":
         removeGroupRef.current?.focus();
+        break;
+      case "remove-todos":
+        removeTodosRef.current?.focus();
         break;
     }
   }, [isEditMode]);
@@ -78,6 +83,14 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
       case "remove-group":
         setEditContent(
           <RemoveGroupInterface
+            groupName={groupName}
+            setIsToggled={setIsEditMode}
+          />
+        );
+        break;
+      case "remove-todos":
+        setEditContent(
+          <RemoveTodosInterface
             groupName={groupName}
             setIsToggled={setIsEditMode}
           />
@@ -119,6 +132,13 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
           tabIndex={100003}
         >
           Remove Group
+        </GroupFunctionButton>
+        <GroupFunctionButton
+          event={() => handleButtonClick("remove-todos")}
+          r={removeTodosRef}
+          tabIndex={100004}
+        >
+          Remove Todos
         </GroupFunctionButton>
       </section>
       {isEditMode && (

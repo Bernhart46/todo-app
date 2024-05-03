@@ -225,6 +225,14 @@ export const todoSlice = createSlice({
 
       return [...state].filter((elem) => elem.name !== groupName);
     },
+    removeTodos: (state, action: PayloadAction<{ groupName: string }>) => {
+      const { groupName } = action.payload;
+
+      const group = getGroup(state, groupName);
+      if (!group) return;
+
+      group.children = [];
+    },
     renameGroup: (
       state,
       action: PayloadAction<{ groupName: string; newName: string }>
@@ -269,5 +277,6 @@ export const {
   setNewChildIndex,
   resetGroup,
   renameGroup,
+  removeTodos,
 } = todoSlice.actions;
 export default todoSlice.reducer;
