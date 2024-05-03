@@ -83,8 +83,8 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
         .sort((a, b) => sort(a, b, "done"))
     : [];
   //base tabIndexes for status groups
-  //101 = base, 2 = new group
-  const nst_baseIndex = 101 + groupAmount + 2 + 1;
+  //101 = base, 2 = new group, last 1 is the settings button
+  const nst_baseIndex = 101 + groupAmount + 2 + 1 + 1;
   const ip_baseIndex = nst_baseIndex + notStartedTodos.length * 6;
   const done_baseIndex = ip_baseIndex + inProgress.length * 6;
 

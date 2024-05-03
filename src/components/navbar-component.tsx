@@ -53,7 +53,6 @@ const NavbarComponent = () => {
       className={`navbar-component ${
         isNavbarToggled ? "" : "navbar-bottom navbar-right"
       }`}
-      ref={navbarRef}
     >
       <NavLink
         className="nav-button"
@@ -63,28 +62,38 @@ const NavbarComponent = () => {
       >
         Home
       </NavLink>
-      {[...todos].map((todo, i) => {
-        const tIndex = 101 + i;
-        return (
-          <NavLink
-            className="nav-button"
-            key={todo.name}
-            to={todo.name}
-            title={todo.name}
-            tabIndex={tIndex}
-            onClick={() => handleClick(todo.name)}
-            onKeyUp={(e) =>
-              changeIndex({
-                event: e,
-                groupName: todo.name,
-              })
-            }
-          >
-            {todo.name}
-          </NavLink>
-        );
-      })}
+      <div className="nav-button__container" ref={navbarRef}>
+        {[...todos].map((todo, i) => {
+          const tIndex = 101 + i;
+          return (
+            <NavLink
+              className="nav-button"
+              key={todo.name}
+              to={todo.name}
+              title={todo.name}
+              tabIndex={tIndex}
+              onClick={() => handleClick(todo.name)}
+              onKeyUp={(e) =>
+                changeIndex({
+                  event: e,
+                  groupName: todo.name,
+                })
+              }
+            >
+              {todo.name}
+            </NavLink>
+          );
+        })}
+      </div>
       <NavbarCreateGroup />
+      <NavLink
+        className="nav-button settings-button"
+        to="/settings"
+        onClick={() => handleClick("Settings")}
+        tabIndex={101 + todos.length + 1}
+      >
+        Settings
+      </NavLink>
     </div>
   );
 };

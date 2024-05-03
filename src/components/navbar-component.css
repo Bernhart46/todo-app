@@ -4,6 +4,14 @@
   overflow: auto;
   border-radius: 10px;
   margin: 15px;
+  display: grid;
+  grid-template-rows: 2.5rem 1fr 2.5rem 2.5rem;
+  gap: 10px;
+}
+
+.nav-button__container {
+  height: 100%;
+  overflow-y: auto;
 }
 
 .nav-button {
@@ -88,4 +96,8 @@
   .navbar-right {
     margin-right: 0;
   }
+}
+
+.settings-button {
+  background-color: #383838;
 }

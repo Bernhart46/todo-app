@@ -1,11 +1,12 @@
-import { useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { Routes, Route } from 'react-router-dom';
-import { ErrorPage } from '../pages/error-page';
-import { HomePage } from '../pages/home-page';
-import { TodoPage } from '../pages/todo-page';
-import { RootState } from '../store';
-import './main-component.css';
+import { useRef } from "react";
+import { useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import { ErrorPage } from "../pages/error-page";
+import { HomePage } from "../pages/home-page";
+import { TodoPage } from "../pages/todo-page";
+import { RootState } from "../store";
+import "./main-component.css";
+import { SettingsPage } from "../pages/settings-page";
 
 const MainComponent = () => {
   const isNavbarToggled = useSelector(
@@ -20,16 +21,17 @@ const MainComponent = () => {
         mainRef.current &&
         mainRef.current.scrollTo({
           top: mainRef.current.scrollHeight,
-          behavior: 'smooth',
+          behavior: "smooth",
         }),
       20
     );
   };
 
   return (
-    <main style={{ display: isNavbarToggled ? 'none' : 'block' }} ref={mainRef}>
+    <main style={{ display: isNavbarToggled ? "none" : "block" }} ref={mainRef}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route
           path="/:todo"
           element={<TodoPage scrollToBottom={scrollToBottom} />}

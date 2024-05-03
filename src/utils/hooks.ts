@@ -119,13 +119,17 @@ export const useLoad = () => {
   ];
 
   const dispatch = useDispatch();
-  const func = () => {
+  const func = (fileData: string) => {
     const stringData = localStorage.getItem("state");
     console.log("LocalStorage size: ", stringData?.length);
-    const data = stringData
-      ? (JSON.parse(stringData) as todoGroup[])
-      : defaultData;
+    let data = [] as todoGroup[];
+    if (fileData) {
+      data = JSON.parse(fileData) as todoGroup[];
+    } else {
+      data = stringData ? (JSON.parse(stringData) as todoGroup[]) : defaultData;
+    }
     const newData = renewOldSaves(data);
+
     dispatch(loadState({ data: newData }));
     dispatch(setStateLoaded());
   };
