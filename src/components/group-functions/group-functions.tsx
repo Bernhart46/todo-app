@@ -31,72 +31,74 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
   useEffect(() => {
     setIsEditMode(false);
   }, [groupName]);
-  //Refactor the switch case here. Make the button types and refs into an object and make it more "reusable".
+
+  const functionButtons = [
+    {
+      id: "new-todo",
+      ref: newTodoRef,
+      content: (
+        <NewTodoInterface groupName={groupName} setIsToggled={setIsEditMode} />
+      ),
+    },
+    {
+      id: "reset-all",
+      ref: resetStatusRef,
+      content: (
+        <ResetStatusInterface
+          groupName={groupName}
+          setIsToggled={setIsEditMode}
+        />
+      ),
+    },
+    {
+      id: "rename-group",
+      ref: renameGroupRef,
+      content: (
+        <RenameGroupInterface
+          groupName={groupName}
+          setIsToggled={setIsEditMode}
+        />
+      ),
+    },
+    {
+      id: "remove-group",
+      ref: removeGroupRef,
+      content: (
+        <RemoveGroupInterface
+          groupName={groupName}
+          setIsToggled={setIsEditMode}
+        />
+      ),
+    },
+    {
+      id: "remove-todos",
+      ref: removeTodosRef,
+      content: (
+        <RemoveTodosInterface
+          groupName={groupName}
+          setIsToggled={setIsEditMode}
+        />
+      ),
+    },
+  ];
+
+  //Autofocus when we cancel the interface interaction
   useEffect(() => {
     if (isEditMode) return;
 
-    switch (type) {
-      case "new-todo":
-        newTodoRef.current?.focus();
-        break;
-      case "reset-all":
-        resetStatusRef.current?.focus();
-        break;
-      case "rename-group":
-        renameGroupRef.current?.focus();
-        break;
-      case "remove-group":
-        removeGroupRef.current?.focus();
-        break;
-      case "remove-todos":
-        removeTodosRef.current?.focus();
-        break;
-    }
+    const ref = functionButtons.find((button) => button.id === type)?.ref;
+    if (!ref) return;
+
+    ref.current?.focus();
   }, [isEditMode]);
 
+  //Shows Interface
   const handleButtonClick = (t: string) => {
-    switch (t) {
-      case "new-todo":
-        setEditContent(
-          <NewTodoInterface
-            groupName={groupName}
-            setIsToggled={setIsEditMode}
-          />
-        );
-        break;
-      case "reset-all":
-        setEditContent(
-          <ResetStatusInterface
-            groupName={groupName}
-            setIsToggled={setIsEditMode}
-          />
-        );
-        break;
-      case "rename-group":
-        setEditContent(
-          <RenameGroupInterface
-            groupName={groupName}
-            setIsToggled={setIsEditMode}
-          />
-        );
-        break;
-      case "remove-group":
-        setEditContent(
-          <RemoveGroupInterface
-            groupName={groupName}
-            setIsToggled={setIsEditMode}
-          />
-        );
-        break;
-      case "remove-todos":
-        setEditContent(
-          <RemoveTodosInterface
-            groupName={groupName}
-            setIsToggled={setIsEditMode}
-          />
-        );
-        break;
-    }
+    const content = functionButtons.find((button) => button.id === t)?.content;
+    if (!content) return;
+
+    setEditContent(content);
+
     setIsEditMode(true);
     setType(t);
     scrollToBottom();
