@@ -11,6 +11,7 @@ import {
 } from "../store/todo/todo-slice";
 import { setStateLoaded } from "../store/visual/visual-slice";
 import { useParams } from "react-router-dom";
+import { renewOldSaves } from "../scripts/renew-old-saves";
 
 export const useWindowSize = () => {
   const [size, setSize] = useState({
@@ -124,7 +125,8 @@ export const useLoad = () => {
     const data = stringData
       ? (JSON.parse(stringData) as todoGroup[])
       : defaultData;
-    dispatch(loadState({ data }));
+    const newData = renewOldSaves(data);
+    dispatch(loadState({ data: newData }));
     dispatch(setStateLoaded());
   };
 
