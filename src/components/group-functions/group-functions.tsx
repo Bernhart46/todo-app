@@ -41,6 +41,8 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
       content: (
         <NewTodoInterface groupName={groupName} setIsToggled={setIsEditMode} />
       ),
+      tabIndex: 100000,
+      title: "New Todo",
     },
     {
       id: "reset-all",
@@ -51,6 +53,8 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
           setIsToggled={setIsEditMode}
         />
       ),
+      tabIndex: 100001,
+      title: "Reset All Status",
     },
     {
       id: "rename-group",
@@ -61,6 +65,8 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
           setIsToggled={setIsEditMode}
         />
       ),
+      tabIndex: 100002,
+      title: "Rename Group",
     },
     {
       id: "remove-group",
@@ -71,6 +77,8 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
           setIsToggled={setIsEditMode}
         />
       ),
+      tabIndex: 100003,
+      title: "Remove Group",
     },
     {
       id: "remove-todos",
@@ -81,6 +89,8 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
           setIsToggled={setIsEditMode}
         />
       ),
+      tabIndex: 100004,
+      title: "Remove Todos",
     },
     {
       id: "sort-todos",
@@ -91,6 +101,8 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
           setIsToggled={setIsEditMode}
         />
       ),
+      tabIndex: 100005,
+      title: "Sort Todos",
     },
   ];
 
@@ -119,48 +131,18 @@ export const GroupFunctionsComponent = (props: GroupFunctionsProps) => {
   return (
     <div className="group-functions">
       <section className="group-functions__buttons">
-        <GroupFunctionButton
-          event={() => handleButtonClick("new-todo")}
-          r={newTodoRef}
-          tabIndex={100000}
-        >
-          New Todo
-        </GroupFunctionButton>
-        <GroupFunctionButton
-          event={() => handleButtonClick("reset-all")}
-          r={resetStatusRef}
-          tabIndex={100001}
-        >
-          Reset All Status
-        </GroupFunctionButton>
-        <GroupFunctionButton
-          event={() => handleButtonClick("rename-group")}
-          r={renameGroupRef}
-          tabIndex={100002}
-        >
-          Rename Group
-        </GroupFunctionButton>
-        <GroupFunctionButton
-          event={() => handleButtonClick("remove-group")}
-          r={removeGroupRef}
-          tabIndex={100003}
-        >
-          Remove Group
-        </GroupFunctionButton>
-        <GroupFunctionButton
-          event={() => handleButtonClick("remove-todos")}
-          r={removeTodosRef}
-          tabIndex={100004}
-        >
-          Remove Todos
-        </GroupFunctionButton>
-        <GroupFunctionButton
-          event={() => handleButtonClick("sort-todos")}
-          r={sortTodosRef}
-          tabIndex={100005}
-        >
-          Sort Todos
-        </GroupFunctionButton>
+        {functionButtons.map((button, i) => {
+          return (
+            <GroupFunctionButton
+              event={() => handleButtonClick(button.id)}
+              r={button.ref}
+              tabIndex={button.tabIndex}
+              key={i}
+            >
+              {button.title}
+            </GroupFunctionButton>
+          );
+        })}
       </section>
       {isEditMode && (
         <section className="group-functions__editor">{editContent}</section>
