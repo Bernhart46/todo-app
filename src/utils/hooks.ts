@@ -12,6 +12,7 @@ import {
 import { setStateLoaded } from "../store/visual/visual-slice";
 import { useParams } from "react-router-dom";
 import { renewOldSaves } from "../scripts/renew-old-saves";
+import { compressSave } from "../scripts/compress";
 
 export const useWindowSize = () => {
   const [size, setSize] = useState({
@@ -119,7 +120,7 @@ export const useLoad = () => {
   ];
 
   const dispatch = useDispatch();
-  const func = (fileData: string) => {
+  const func = (fileData?: string) => {
     const stringData = localStorage.getItem("state");
     console.log("LocalStorage size: ", stringData?.length);
     let data = [] as todoGroup[];
@@ -128,7 +129,10 @@ export const useLoad = () => {
     } else {
       data = stringData ? (JSON.parse(stringData) as todoGroup[]) : defaultData;
     }
-    const newData = renewOldSaves(data);
+
+    const newData = renewOldSaves(
+      compressSave(data, "decompress") as todoGroup[]
+    );
 
     dispatch(loadState({ data: newData }));
     dispatch(setStateLoaded());

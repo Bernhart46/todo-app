@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useLoad } from "../../utils/hooks";
+import { compressSave } from "../../scripts/compress";
 
 export const DataComponent = () => {
   const state = localStorage.getItem("state");
@@ -9,7 +10,10 @@ export const DataComponent = () => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const blob = new Blob([state], { type: "text/plain" });
+  const exportData = JSON.stringify(
+    compressSave(JSON.parse(state), "compress")
+  );
+  const blob = new Blob([exportData], { type: "text/plain" });
 
   const handleImportClick = () => {
     if (!inputRef.current) return;
