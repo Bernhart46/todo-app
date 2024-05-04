@@ -1,90 +1,38 @@
-import { useRef } from "react";
 import { useLoad } from "../../utils/hooks";
-import { compressSave } from "../../scripts/compress";
-import { RootState } from "../../store";
-import { useSelector } from "react-redux";
+import { ImportButton } from "./data/import-button";
+import { ExportButton } from "./data/export-button";
+import { ClearButton } from "./data/clear-button";
+import { useState } from "react";
+import { ConfirmChoiceComponent } from "../group-functions/confirm-choice";
 
 export const DataComponent = () => {
-  const state = useSelector((state: RootState) => state).todo;
-  if (!state) return null;
-
+  const [clearConfirm, setClearConfirm] = useState(false);
   const load = useLoad();
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const exportData = JSON.stringify(compressSave(state, "compress"));
-  const blob = new Blob([exportData], { type: "text/plain" });
-
-  const handleImportClick = () => {
-    if (!inputRef.current) return;
-    let files = inputRef.current.files;
-    if (!files) return;
-    if (files.length == 0) return;
-
-    const file = files[0];
-
-    let reader = new FileReader();
-
-    reader.onload = (e) => {
-      const file = e.target?.result as string;
-
-      if (!file) return;
-      // This is a regular expression to identify carriage
-      // Returns and line breaks
-      const lines = file.split(/\r\n|\n/);
-      load(lines[0]);
-    };
-
-    reader.onerror = (e) => console.log(e);
-
-    reader.readAsText(file);
-  };
-
-  const handleExportClick = () => {
-    const link = document.createElement("a");
-    link.download = "todo-save-data.txt";
-
-    link.href = URL.createObjectURL(blob);
-    link.click();
-
-    URL.revokeObjectURL(link.href);
-  };
-
-  const handleClearClick = () => {
+  const confirmedClearClick = () => {
+    setClearConfirm(false);
     load("{}");
   };
 
   return (
-    <div className="settings__data-container">
-      <div className="settings__title">Data:</div>
-      <label
-        htmlFor="input_file"
-        className="settings__button disable-selection"
-      >
-        Import
-      </label>
-      <input
-        type="file"
-        id="input_file"
-        onChange={handleImportClick}
-        ref={inputRef}
-        accept=".txt"
-        style={{ display: "none" }}
-      />
-      <div
-        role="button"
-        className="settings__button disable-selection"
-        onClick={handleExportClick}
-      >
-        Export
+    <>
+      <div className="settings__data-container">
+        <div className="settings__title">Data:</div>
+        <ImportButton />
+        <ExportButton />
+        <ClearButton setClearConfirm={setClearConfirm} />
       </div>
-      <div
-        role="button"
-        className="settings__button disable-selection"
-        onClick={handleClearClick}
-      >
-        Clear Data
-      </div>
-    </div>
+      {clearConfirm && (
+        <ConfirmChoiceComponent
+          confirmFn={confirmedClearClick}
+          setShowed={setClearConfirm}
+          texts={{
+            question: "Are you sure, you want to remove the todos?",
+            cancel: "No, don't remove!",
+            confirm: "Yes, remove!",
+          }}
+        />
+      )}
+    </>
   );
 };
