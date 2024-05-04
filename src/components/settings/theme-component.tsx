@@ -13,16 +13,11 @@ export const ThemeComponent = () => {
 
   return (
     <>
-      <div className="settings__data-container">
+      <div className="settings__theme-container">
         <div className="settings__title">Theme:</div>
         <select
           onChange={onSelectChange}
-          className="sort-select"
-          style={{
-            gridRow: "1",
-            gridColumn: "2 / span 3",
-            textAlign: "center",
-          }}
+          className="sort-select theme-select"
           value={state.theme}
         >
           <option value="dark">Dark Theme</option>

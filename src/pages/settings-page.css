@@ -1,14 +1,30 @@
-.settings__data-container {
+.settings__data-container,
+.settings__theme-container {
   display: grid;
   grid-template-columns: 1fr 2fr 2fr 2fr;
   grid-template-rows: 1fr;
   gap: 1rem;
 }
 
+.theme-select {
+  grid-row: 1 !important;
+  grid-column: 2 / span 3 !important;
+  text-align: center;
+}
+
 @media (max-width: 600px) {
   .settings__data-container {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
+  }
+  .settings__theme-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .theme-select {
+    grid-row: 2 !important;
+    grid-column: 1 !important;
   }
 }
 
