@@ -5,7 +5,7 @@ const initialState = {
   navbarToggled: false,
   navbarScrollTop: 0,
   isStateLoaded: false,
-  theme: "dark",
+  theme: "",
 };
 
 export const visualSlice = createSlice({

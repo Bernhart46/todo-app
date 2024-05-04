@@ -23,7 +23,7 @@ export const ThemeComponent = () => {
             gridColumn: "2 / span 3",
             textAlign: "center",
           }}
-          defaultValue={state.theme}
+          value={state.theme}
         >
           <option value="dark">Dark Theme</option>
           <option value="light">Light Theme (ugly)</option>
