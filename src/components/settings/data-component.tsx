@@ -57,12 +57,19 @@ export const DataComponent = () => {
   return (
     <div className="settings__data-container">
       <div className="settings__title">Data:</div>
+      <label
+        htmlFor="input_file"
+        className="settings__button disable-selection"
+      >
+        Import
+      </label>
       <input
         type="file"
-        className="settings__button disable-selection"
+        id="input_file"
         onChange={handleImportClick}
         ref={inputRef}
         accept=".txt"
+        style={{ display: "none" }}
       />
       <div
         role="button"
