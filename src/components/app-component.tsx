@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { AppDispatch, RootState } from "../store";
 import { useLoad, useSave } from "../utils/hooks";
@@ -7,6 +7,7 @@ import "../utils/themes.css";
 import MainComponent from "./main-component";
 import NavbarComponent from "./navbar-component";
 import { changeTheme } from "../store/visual/visual-slice";
+import { LoadingPage } from "../pages/loading-page";
 
 const AppComponent = () => {
   const appRef = useRef<HTMLDivElement>(null);
@@ -40,18 +41,21 @@ const AppComponent = () => {
     appRef.current.style.setProperty("--vh", `${vh}px`);
   };
   return (
-    <div
-      className={`app-component ${
-        isNavbarToggled ? "" : "app-grid"
-      } ${theme}-theme `}
-      style={{
-        gridTemplateRows: isNavbarToggled ? "1fr" : "",
-      }}
-      ref={appRef}
-    >
-      <NavbarComponent />
-      <MainComponent />
-    </div>
+    <>
+      <LoadingPage />
+      <div
+        className={`app-component ${
+          isNavbarToggled ? "" : "app-grid"
+        } ${theme}-theme `}
+        style={{
+          gridTemplateRows: isNavbarToggled ? "1fr" : "",
+        }}
+        ref={appRef}
+      >
+        <NavbarComponent />
+        <MainComponent />
+      </div>
+    </>
   );
 };
 
