@@ -33,11 +33,6 @@ body {
   user-select: none;
 }
 
-input:focus {
-  box-shadow: none;
-  outline: solid 1px #3d3d3d;
-}
-
 /* SCROLL */
 ::-webkit-scrollbar {
   width: 5px;
