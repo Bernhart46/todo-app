@@ -86,7 +86,10 @@ export const useChangeIndex = () => {
 export const useSave = () => {
   const todoState = useSelector((state: RootState) => state.todo);
   const func = () => {
-    localStorage.setItem("state", JSON.stringify(todoState));
+    localStorage.setItem(
+      "state",
+      JSON.stringify(compressSave(todoState, "compress"))
+    );
   };
   return func;
 };

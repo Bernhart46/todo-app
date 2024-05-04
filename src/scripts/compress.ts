@@ -8,7 +8,7 @@ export function compressSave(
     compressedState[i] = {};
     for (let key in state[i]) {
       if (Object.hasOwn(keyMap, key)) {
-        if (key === "children" || key === "b") {
+        if ((key === "children" || key === "b") && state[i][key].length > 0) {
           compressedState[i][keyMap[key]] = compressSave(state[i][key], type);
         } else if (key === "sort" || key === "d") {
           compressedState[i][keyMap[key]] = compressSave(
@@ -23,6 +23,7 @@ export function compressSave(
       }
     }
   }
+
   return compressedState;
 }
 

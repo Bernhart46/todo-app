@@ -1,18 +1,18 @@
 import { useRef } from "react";
 import { useLoad } from "../../utils/hooks";
 import { compressSave } from "../../scripts/compress";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 export const DataComponent = () => {
-  const state = localStorage.getItem("state");
+  const state = useSelector((state: RootState) => state).todo;
   if (!state) return null;
 
   const load = useLoad();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const exportData = JSON.stringify(
-    compressSave(JSON.parse(state), "compress")
-  );
+  const exportData = JSON.stringify(compressSave(state, "compress"));
   const blob = new Blob([exportData], { type: "text/plain" });
 
   const handleImportClick = () => {
@@ -50,6 +50,10 @@ export const DataComponent = () => {
     URL.revokeObjectURL(link.href);
   };
 
+  const handleClearClick = () => {
+    load("{}");
+  };
+
   return (
     <div className="settings__data-container">
       <div className="settings__title">Data:</div>
@@ -66,6 +70,13 @@ export const DataComponent = () => {
         onClick={handleExportClick}
       >
         Export
+      </div>
+      <div
+        role="button"
+        className="settings__button disable-selection"
+        onClick={handleClearClick}
+      >
+        Clear Data
       </div>
     </div>
   );
