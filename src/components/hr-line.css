@@ -7,7 +7,7 @@ div[role="separator"]::before {
   display: block;
   height: 1px;
   width: 100%;
-  background-color: white;
+  background-color: var(--color);
   position: relative;
   top: 0.5rem;
 }
@@ -19,7 +19,7 @@ div[role="separator"]::after {
   align-items: center;
   height: 1rem;
   width: 10rem;
-  background-color: #2b2b2b;
+  background-color: var(--backgroundColor2);
   position: relative;
   left: 50%;
   transform: translateX(-50%);

@@ -1,9 +1,4 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #1f1f1f;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -11,10 +6,8 @@
   -webkit-text-size-adjust: 100%;
 }
 
-*:focus-visible {
-  outline: solid aqua 3px !important;
-  position: relative;
-  z-index: 999;
+* {
+  transition: color 0.2s, background-color 0.2s;
 }
 
 body {

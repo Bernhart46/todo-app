@@ -1,6 +1,8 @@
 .app-component {
   display: grid;
-  color: white;
+  background-color: var(--backgroundColor1);
+  color: var(--color);
+  font-family: var(--font);
   width: 100vw;
   max-width: 2000px;
   height: var(--vh);

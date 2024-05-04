@@ -1,6 +1,6 @@
 main {
-  background-color: #2b2b2b;
-  color: white;
+  background-color: var(--backgroundColor2);
+  color: var(--color);
   overflow: auto;
   margin: 15px;
   border-radius: 10px;

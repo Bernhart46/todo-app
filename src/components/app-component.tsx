@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux/es/exports';
-import { RootState } from '../store';
-import { useLoad, useSave } from '../utils/hooks';
-import './app-component.css';
-import MainComponent from './main-component';
-import NavbarComponent from './navbar-component';
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux/es/exports";
+import { RootState } from "../store";
+import { useLoad, useSave } from "../utils/hooks";
+import "./app-component.css";
+import "../utils/themes.css";
+import MainComponent from "./main-component";
+import NavbarComponent from "./navbar-component";
 
 const AppComponent = () => {
   const appRef = useRef<HTMLDivElement>(null);
@@ -13,10 +14,11 @@ const AppComponent = () => {
   const isNavbarToggled = state.visual.navbarToggled;
   const saveFunc = useSave();
   const loadFunc = useLoad();
+  const theme = state.visual.theme;
 
   useEffect(() => {
     modifyVh();
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       modifyVh();
     });
 
@@ -30,12 +32,14 @@ const AppComponent = () => {
   const modifyVh = () => {
     if (!appRef.current) return;
     const vh = window.innerHeight;
-    appRef.current.style.setProperty('--vh', `${vh}px`);
+    appRef.current.style.setProperty("--vh", `${vh}px`);
   };
   return (
     <div
-      className={`app-component ${isNavbarToggled ? '' : 'app-grid'}`}
-      style={{ gridTemplateRows: isNavbarToggled ? '1fr' : '' }}
+      className={`app-component ${
+        isNavbarToggled ? "" : "app-grid"
+      } ${theme}-theme`}
+      style={{ gridTemplateRows: isNavbarToggled ? "1fr" : "" }}
       ref={appRef}
     >
       <NavbarComponent />

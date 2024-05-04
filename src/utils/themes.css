@@ -1,0 +1,28 @@
+.dark-theme {
+  --color: #f1f1f1;
+  --backgroundColor0: #353535;
+  --backgroundColor1: #1f1f1f;
+  --backgroundColor2: #2b2b2b;
+  --backgroundColor3: #3d3d3d;
+  --backgroundColor4: #535353;
+  --focus-color: aqua;
+  --font: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.light-theme {
+  --color: #1f1f1f;
+  --backgroundColor0: #9bd4e4;
+  --backgroundColor1: #39ace7;
+  --backgroundColor2: #9bd4e4;
+  --backgroundColor3: #6fbdff;
+  --backgroundColor4: #9bd4e4;
+  --focus-color: #e27821;
+
+  --font: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+*:focus-visible {
+  outline: solid var(--focus-color) 3px !important;
+  position: relative;
+  z-index: 999;
+}

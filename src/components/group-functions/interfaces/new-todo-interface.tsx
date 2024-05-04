@@ -79,8 +79,8 @@ export const NewTodoInterface = (props: InterfaceProps) => {
         ref={titleRef}
         value={title}
         style={{
-          borderBottomColor: isError ? "red" : "white",
-          outlineColor: isError ? "red" : "white",
+          borderBottomColor: isError ? "red" : "var(--color)",
+          outlineColor: isError ? "red" : "var(--color)",
         }}
       ></textarea>
       <div

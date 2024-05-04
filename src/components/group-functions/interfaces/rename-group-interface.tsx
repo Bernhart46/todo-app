@@ -49,8 +49,8 @@ export const RenameGroupInterface = (props: InterfaceProps) => {
         value={newName}
         ref={inputRef}
         style={{
-          borderBottomColor: isError ? "red" : "white",
-          outlineColor: isError ? "red" : "white",
+          borderBottomColor: isError ? "red" : "var(--color)",
+          outlineColor: isError ? "red" : "var(--color)",
         }}
       />
       <div

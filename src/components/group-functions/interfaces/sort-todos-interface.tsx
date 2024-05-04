@@ -88,7 +88,7 @@ export const SortTodosInterface = (props: InterfaceProps) => {
             </label>
             <select
               defaultValue={sorts[category.type]}
-              className={`sort-select-${i}`}
+              className={`sort-select`}
               tabIndex={200006 + i}
               onChange={(e) => handleChange(e, category.type)}
               id={category.type}

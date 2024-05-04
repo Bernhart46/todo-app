@@ -12,6 +12,11 @@
   }
 }
 
+.settings-container {
+  background-color: var(--backgroundColor3);
+  padding: 1rem 1rem;
+}
+
 .settings__title {
   display: flex;
   justify-content: center;
@@ -20,9 +25,9 @@
 }
 
 .settings__button {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--backgroundColor4);
   border: none;
-  color: white;
+  color: var(--color);
   padding: 0;
   height: 2.6rem;
   line-height: 2.6rem;
@@ -40,7 +45,7 @@
 }
 
 hr {
-  margin: 1rem 0;
+  margin: 0;
 }
 
 h1 {

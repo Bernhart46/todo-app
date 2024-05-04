@@ -138,8 +138,8 @@ const NavbarCreateGroup = () => {
         onKeyUp={(e) => submitByEnter(e)}
         tabIndex={101 + groupAmount}
         style={{
-          borderBottomColor: isError ? "red" : "white",
-          outlineColor: isError ? "red" : "white",
+          borderBottomColor: isError ? "red" : "var(--color)",
+          outlineColor: isError ? "red" : "var(--color)",
         }}
       />
       <button

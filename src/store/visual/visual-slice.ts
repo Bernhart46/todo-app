@@ -1,14 +1,15 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { todoGroup } from '../todo/todo-slice';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { todoGroup } from "../todo/todo-slice";
 
 const initialState = {
   navbarToggled: false,
   navbarScrollTop: 0,
   isStateLoaded: false,
+  theme: "dark",
 };
 
 export const visualSlice = createSlice({
-  name: 'visual',
+  name: "visual",
   initialState,
   reducers: {
     toggleNavbar: (state, action: PayloadAction<boolean | undefined>) => {
@@ -44,9 +45,13 @@ export const visualSlice = createSlice({
     setStateLoaded: (state) => {
       state.isStateLoaded = true;
     },
+    changeTheme: (state, action: PayloadAction<{ theme: string }>) => {
+      const { theme } = action.payload;
+      state.theme = theme;
+    },
   },
 });
 
-export const { toggleNavbar, setNavbarScrollTop, setStateLoaded } =
+export const { toggleNavbar, setNavbarScrollTop, setStateLoaded, changeTheme } =
   visualSlice.actions;
 export default visualSlice.reducer;

@@ -5,7 +5,7 @@
 .rename-group__container {
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: #3d3d3d;
+  background-color: var(--backgroundColor3);
   padding: 1rem;
   display: grid;
 
@@ -33,7 +33,7 @@
     grid-column: 1;
     grid-row: 2;
   }
-  .sort-select-1 {
+  .sort-select:nth-of-type(1) {
     grid-column: 2;
     grid-row: 2;
   }
@@ -41,7 +41,7 @@
     grid-column: 1;
     grid-row: 3;
   }
-  .sort-select-2 {
+  .sort-select:nth-of-type(3) {
     grid-column: 2;
     grid-row: 3;
   }
@@ -77,15 +77,13 @@
 
 .todo-creation__title,
 .todo-creation__description,
-.sort-select-0,
-.sort-select-1,
-.sort-select-2,
+.sort-select,
 .rename-group__input {
   background-color: transparent;
   padding: 0.5rem;
   border: none;
-  border-bottom: solid white 1px;
-  color: white;
+  border-bottom: solid var(--color) 1px;
+  color: var(--color);
   line-height: 1.5rem;
   font-size: 1.25rem;
   resize: none;
@@ -93,29 +91,23 @@
   min-width: 0;
 }
 
-.sort-select-0,
-.sort-select-1,
-.sort-select-2 {
+.sort-select {
   height: 2.5rem;
-  background-color: #353535;
+  background-color: var(--backgroundColor0);
   padding: 0 1rem;
 }
 
-.sort-select-0:hover,
-.sort-select-1:hover,
-.sort-select-2:hover {
-  background-color: #2e2e2e;
+.sort-select-0 {
+  background-color: var(--backgroundColor2);
 }
 
-.sort-label-0,
-.sort-label-1,
-.sort-label-2 {
+.sort-label {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.3rem;
   height: 2.5rem;
-  background-color: #353535;
+  background-color: var(--backgroundColor3);
 }
 
 .todo-creation__add-button,
@@ -123,9 +115,9 @@
 .todo-sort__save-button,
 .todo-sort__cancel-button,
 .rename-group__button {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--backgroundColor4);
   border: none;
-  color: white;
+  color: var(--color);
   padding: 0;
   height: 2.6rem;
   line-height: 2.6rem;

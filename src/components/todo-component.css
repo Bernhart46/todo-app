@@ -2,7 +2,7 @@
 
 .todo-item {
   line-height: 1.5rem;
-  background-color: #3d3d3d;
+  background-color: var(--backgroundColor3);
   margin-top: 10px;
   border-radius: 1rem;
   padding-left: 0.5rem;
@@ -42,8 +42,8 @@
   top: -1.25rem;
   line-height: 1.5rem;
   z-index: 1;
-  background-color: #464646;
-  color: white;
+  background-color: var(--backgroundColor3);
+  color: var(--color);
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   transition: all 0.5s cubic-bezier(0, 0.75, 0.75, 1);
@@ -67,11 +67,11 @@
 
 .todo-interface-bar {
   height: 2rem;
-  background-color: #3d3d3d;
+  background-color: var(--backgroundColor3);
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   margin-top: 0.5rem;
-  border-top: solid #1f1f1f 2px;
+  border-top: solid var(--backgroundColor1) 2px;
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -85,7 +85,7 @@
   cursor: pointer;
 }
 .todo-button:hover {
-  background-color: #4b4b4b;
+  background-color: var(--backgroundColor1);
 }
 
 .todo-remove-button {
@@ -108,8 +108,8 @@
   background-color: transparent;
   padding: 0.5rem;
   border: none;
-  border-bottom: solid white 1px;
-  color: white;
+  border-bottom: solid var(--color) 1px;
+  color: var(--color);
   line-height: 1.5rem;
   font-size: 1rem;
   resize: none;
