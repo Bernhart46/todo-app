@@ -8,7 +8,7 @@ import {
 } from "../utils/hooks";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux/es/exports";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import "./navbar-component.css";
 import { addNewTodoGroup } from "../store/todo/todo-slice";
 
@@ -128,6 +128,7 @@ const NavbarCreateGroup = () => {
   const [isError, setIsError] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const groupAmount = useGetGroupAmount();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -142,6 +143,9 @@ const NavbarCreateGroup = () => {
     }
 
     dispatch(addNewTodoGroup(newGroupName));
+    navigate(`/${newGroupName}`);
+
+    //??
     if (!inputRef.current) return;
 
     setNewGroupName("");
