@@ -14,6 +14,8 @@ import { addNewTodoGroup } from "../store/todo/todo-slice";
 
 const NavbarComponent = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
+  const pathname = window.location.pathname.replace("/", "");
+  const param = pathname === "" ? "home" : pathname;
 
   const [width] = useWindowSize();
   const store = useSelector((store: RootState) => store);
@@ -21,6 +23,21 @@ const NavbarComponent = () => {
 
   const { navbarToggled: isNavbarToggled } = store.visual;
   const todos = store.todo;
+
+  const nonTodoNames = ["home", "settings"];
+  const isErrorPage =
+    !todos.find((x) => x.name === param) && !nonTodoNames.includes(param);
+  console.log(isErrorPage);
+
+  const buttonShowCondition = (name: string) => {
+    if (width >= 992) return true;
+    if (isNavbarToggled) return true;
+    if (param === name) {
+      return true;
+    } else {
+      false;
+    }
+  };
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -35,52 +52,73 @@ const NavbarComponent = () => {
     dispatch(toggleNavbar());
   };
 
+  const showButtons =
+    width >= 992 ||
+    isNavbarToggled ||
+    (!nonTodoNames.includes(param) && !isNavbarToggled);
+
   return (
     <div
       className={`navbar-component ${
         isNavbarToggled ? "" : "navbar-bottom navbar-right"
       }`}
     >
-      <NavLink
-        className="nav-button"
-        to="/"
-        onClick={handleClick}
-        tabIndex={100}
-      >
-        Home
-      </NavLink>
-      <div className="nav-button__container" ref={navbarRef}>
-        {[...todos].map((todo, i) => {
-          const tIndex = 101 + i;
-          return (
-            <NavLink
-              className="nav-button"
-              key={todo.name}
-              to={todo.name}
-              title={todo.name}
-              tabIndex={tIndex}
-              onClick={handleClick}
-              onKeyUp={(e) =>
-                changeIndex({
-                  event: e,
-                  groupName: todo.name,
-                })
-              }
-            >
-              {todo.name}
-            </NavLink>
-          );
-        })}
-      </div>
-      <NavbarCreateGroup />
-      <NavLink
-        className="nav-button settings-button"
-        to="/settings"
-        onClick={handleClick}
-        tabIndex={101 + todos.length + 1}
-      >
-        Settings
-      </NavLink>
+      {(buttonShowCondition("home") || isErrorPage) && (
+        <NavLink
+          className="nav-button"
+          to="/"
+          onClick={handleClick}
+          tabIndex={100}
+        >
+          Home
+        </NavLink>
+      )}
+      {showButtons && (
+        <div
+          className="nav-button__container"
+          ref={navbarRef}
+          style={{
+            overflowY: `${isNavbarToggled || width >= 992 ? "auto" : "hidden"}`,
+          }}
+        >
+          {[...todos].map((todo, i) => {
+            const tIndex = 101 + i;
+            const show = buttonShowCondition(todo.name);
+            return (
+              show && (
+                <NavLink
+                  className="nav-button"
+                  key={todo.name}
+                  to={todo.name}
+                  title={todo.name}
+                  tabIndex={tIndex}
+                  onClick={handleClick}
+                  onKeyUp={(e) =>
+                    changeIndex({
+                      event: e,
+                      groupName: todo.name,
+                    })
+                  }
+                >
+                  {todo.name}
+                </NavLink>
+              )
+            );
+          })}
+        </div>
+      )}
+      {(isNavbarToggled || width >= 992) && <NavbarCreateGroup />}
+
+      {buttonShowCondition("settings") && (
+        <NavLink
+          className="nav-button settings-button"
+          to="/settings"
+          onClick={handleClick}
+          tabIndex={101 + todos.length + 1}
+        >
+          Settings
+        </NavLink>
+      )}
     </div>
   );
 };
@@ -94,7 +132,11 @@ const NavbarCreateGroup = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const submitNewTodo = () => {
-    if (newGroupName === "error" || newGroupName.trim() === "") {
+    const badNames = ["error", "home", "settings"];
+    if (
+      badNames.includes(newGroupName.toLowerCase()) ||
+      newGroupName.trim() === ""
+    ) {
       setIsError(true);
       return;
     }

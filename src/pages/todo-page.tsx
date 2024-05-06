@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { TodoComponent } from "../components/todo-component";
-import { AppDispatch, RootState } from "../store";
+import { RootState } from "../store";
 import HRLine from "../components/hr-line";
 import { useGetGroupAmount } from "../utils/hooks";
 
@@ -22,7 +22,6 @@ export type FocusedTodo = {
 export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
   const { todo } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
   const groupAmount = useGetGroupAmount();
   const [focusedTodo, setFocusedTodo] = useState<null | FocusedTodo>(null);
 
