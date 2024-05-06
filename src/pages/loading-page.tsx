@@ -25,6 +25,7 @@ export const LoadingPage = () => {
         width: "100vw",
         fontSize: "3rem",
         position: "absolute",
+        zIndex: "9999999",
         transition: "transform 0.3s ease-out",
         transform: `${loaded ? "translateY(-100%)" : "translateY(0)"}`,
       }}
