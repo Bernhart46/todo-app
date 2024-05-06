@@ -14,7 +14,8 @@ import { addNewTodoGroup } from "../store/todo/todo-slice";
 
 const NavbarComponent = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
-  const pathname = window.location.pathname.replace("/", "");
+
+  const pathname = decodeURI(window.location.pathname).replace("/", "");
   const param = pathname === "" ? "home" : pathname;
 
   const [width] = useWindowSize();
