@@ -9,7 +9,19 @@
   --font: Inter, Avenir, Helvetica, Arial, sans-serif !important;
 }
 
-.light-theme {
+.proton-theme {
+  --color: #ccc;
+  --backgroundColor0: #1f1b2b;
+  --backgroundColor1: #16141c;
+  --backgroundColor2: #2c2f41;
+  --backgroundColor3: #252635;
+  --backgroundColor4: #1f1b2b;
+  --focus-color: #136c56;
+
+  --font: Inter, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.light-blue-theme {
   --color: #1f1f1f;
   --backgroundColor0: #9bd4e4;
   --backgroundColor1: #39ace7;
@@ -19,6 +31,52 @@
   --focus-color: #e27821;
 
   --font: Inter, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.light-red-theme {
+  --color: #1f1f1f;
+  --backgroundColor0: #c43d3d;
+  --backgroundColor1: #c43d3d;
+  --backgroundColor2: #db6161;
+  --backgroundColor3: #e64a4a;
+  --backgroundColor4: #c43d3d;
+  --focus-color: #61bb23;
+}
+
+.light-orange-theme {
+  --backgroundColor0: #e27821;
+  --backgroundColor1: #f5ae87;
+  --backgroundColor2: #f39f6b;
+  --backgroundColor3: #e78d4f;
+  --backgroundColor4: #e27821;
+  --focus-color: aqua;
+}
+
+.light-green-theme {
+  --backgroundColor0: #b8eaa5;
+  --backgroundColor1: #a8e293;
+  --backgroundColor2: #94d879;
+  --backgroundColor3: #7fc94f;
+  --backgroundColor4: #3aae51;
+  --focus-color: #e27821;
+}
+
+.light-purple-theme {
+  --backgroundColor0: #b39cdb;
+  --backgroundColor1: #a992e0;
+  --backgroundColor2: #9667d2;
+  --backgroundColor3: #8944c4;
+  --backgroundColor4: #7638bf;
+  --focus-color: #e27821;
+}
+
+.light-gray-theme {
+  --backgroundColor0: #d1d1d1;
+  --backgroundColor1: #bfbfbf;
+  --backgroundColor2: #a8a8a8;
+  --backgroundColor3: #7c7c7c;
+  --backgroundColor4: #626161;
+  --focus-color: aqua;
 }
 
 *:focus-visible {

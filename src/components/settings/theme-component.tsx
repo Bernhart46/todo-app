@@ -21,7 +21,13 @@ export const ThemeComponent = () => {
           value={state.theme}
         >
           <option value="dark">Dark Theme</option>
-          <option value="light">Light Theme (ugly)</option>
+          <option value="proton">Proton Theme (quite nice)</option>
+          <option value="light-blue">Light Blue Theme (ugly)</option>
+          <option value="light-red">Light Red Theme (ugly)</option>
+          <option value="light-orange">Light Orange Theme (ugly)</option>
+          <option value="light-green">Light Green Theme (ugly)</option>
+          <option value="light-purple">Light Purple Theme (ugly)</option>
+          <option value="light-gray">Light Gray Theme (ugly)</option>
         </select>
       </div>
     </>
