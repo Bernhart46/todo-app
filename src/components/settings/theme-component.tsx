@@ -19,6 +19,7 @@ export const ThemeComponent = () => {
           onChange={onSelectChange}
           className="sort-select theme-select"
           value={state.theme}
+          tabIndex={200007}
         >
           <option value="dark">Dark Theme</option>
           <option value="proton">Proton Theme (quite nice)</option>

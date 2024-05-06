@@ -22,8 +22,14 @@ export const ExportButton = () => {
   return (
     <div
       role="button"
+      tabIndex={200002}
       className="settings__button disable-selection"
       onClick={handleExportClick}
+      onKeyUp={(e) => {
+        if (e.code === "Enter") {
+          handleExportClick();
+        }
+      }}
     >
       Export
     </div>

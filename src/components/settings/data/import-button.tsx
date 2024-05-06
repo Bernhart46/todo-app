@@ -34,15 +34,21 @@ export const ImportButton = () => {
     <>
       <label
         htmlFor="input_file"
+        tabIndex={200001}
         className="settings__button disable-selection"
+        onKeyUp={(e) => {
+          if (e.code === "Enter") {
+            inputRef.current?.click();
+          }
+        }}
       >
         Import
       </label>
       <input
         type="file"
+        ref={inputRef}
         id="input_file"
         onChange={handleImportClick}
-        ref={inputRef}
         accept=".txt"
         style={{ display: "none" }}
       />

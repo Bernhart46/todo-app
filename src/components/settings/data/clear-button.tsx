@@ -9,9 +9,15 @@ export const ClearButton = ({ setClearConfirm }: ClearButtonProps) => {
 
   return (
     <div
+      tabIndex={200003}
       role="button"
       className="settings__button disable-selection"
       onClick={handleClearClick}
+      onKeyUp={(e) => {
+        if (e.code === "Enter") {
+          handleClearClick();
+        }
+      }}
     >
       Clear Data
     </div>
