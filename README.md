@@ -21,13 +21,14 @@ In the next few points, I will explain how this app works.
 
 - On the Navbar, there is the Home button and below it, you can see your TodoGroups.
 - Below the list, there is a todoGroup creator form. You can use it if you want to create one.
+- On the bottom of the navbar, you can the Settings button, which leads you to the Settings page, where you can change the theme or import/export or even clean your data.
 
 ### Main area
 
 - In the main area (where you are reading right now), you can view the pages. (Home, tasks of the TodoGroups, and the error page)
 - Below the title, you can see the list of the Tasks of the TodoGroup.
 - Below that you can see 2 buttons, the create Task and the Remove group. I think this part is obvious.
-- The limit for the Tasks is theoratically infinite, but it's not because of the limitations of the localStorage (commonly 5MB)
+- The limit for the Tasks is theoratically infinite, but it's not because of the limitations of the localStorage (commonly 5MB), I tried to compress the long attribute names to save some storage, so don't expect to edit your save file, because it's hard to read.
 
 ### Tasks
 
@@ -46,7 +47,8 @@ In the next few points, I will explain how this app works.
 ### Features
 
 - On PC you can use this app with a keyboard  
-  (tab = next, shift+tab = previous, enter = apply or use, escape = leave or cancel, shift+enter switch status backwards)
+  (tab = next, shift+tab = previous, enter = apply or use, shift+enter switch status backwards)
+- Good to know: Select boxes (like sorting or changing theme), can be used with left and right keys (not with enter).
 
 ### Never tested features
 

@@ -34,7 +34,12 @@ export const HomePage = () => {
         </li>
         <li>
           Below the list, there is a todoGroup creator form. You can use it if
-          you want to create one. <br />
+          you want to create one.
+        </li>
+        <li>
+          On the bottom of the navbar, you can the Settings button, which leads
+          you to the Settings page, where you can change the theme or
+          import/export or even clean your data.
         </li>
       </ul>
       <h3>Main area</h3>
@@ -52,7 +57,9 @@ export const HomePage = () => {
         </li>
         <li>
           The limit for the Tasks is theoratically infinite, but it's not
-          because of the limitations of the localStorage (commonly 5MB)
+          because of the limitations of the localStorage (commonly 5MB), I tried
+          to compress the long attribute names to save some storage, so don't
+          expect to edit your save file, because it's hard to read.
         </li>
       </ul>
       <h3>Tasks</h3>
@@ -82,8 +89,12 @@ export const HomePage = () => {
       <ul>
         <li>
           On PC you can use this app with a keyboard <br /> (tab = next,
-          shift+tab = previous, enter = apply or use, escape = leave or cancel,
-          shift+enter switch status backwards)
+          shift+tab = previous, enter = apply or use, shift+enter switch status
+          backwards)
+        </li>
+        <li>
+          Good to know: Select boxes (like sorting or changing theme), can be
+          used with left and right keys (not with enter).
         </li>
       </ul>
 
