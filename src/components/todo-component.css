@@ -71,7 +71,7 @@
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   margin-top: 0.5rem;
-  border-top: solid var(--backgroundColor1) 2px;
+  border-top: solid var(--color) 1px;
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);

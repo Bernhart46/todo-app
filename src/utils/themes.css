@@ -44,6 +44,7 @@
 }
 
 .light-orange-theme {
+  --color: #1f1f1f;
   --backgroundColor0: #e27821;
   --backgroundColor1: #f5ae87;
   --backgroundColor2: #f39f6b;
@@ -53,6 +54,7 @@
 }
 
 .light-green-theme {
+  --color: #1f1f1f;
   --backgroundColor0: #b8eaa5;
   --backgroundColor1: #a8e293;
   --backgroundColor2: #94d879;
@@ -62,6 +64,7 @@
 }
 
 .light-purple-theme {
+  --color: #1f1f1f;
   --backgroundColor0: #b39cdb;
   --backgroundColor1: #a992e0;
   --backgroundColor2: #9667d2;
@@ -71,6 +74,7 @@
 }
 
 .light-gray-theme {
+  --color: #1f1f1f;
   --backgroundColor0: #d1d1d1;
   --backgroundColor1: #bfbfbf;
   --backgroundColor2: #a8a8a8;
