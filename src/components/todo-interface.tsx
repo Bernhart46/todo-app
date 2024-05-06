@@ -77,7 +77,7 @@ export const TodoInterfaceBarComponent = ({
   };
 
   const disabledStyles = {
-    background: "#262626",
+    backgroundColor: "var(--backgroundColor4)",
     cursor: "not-allowed",
   };
 
