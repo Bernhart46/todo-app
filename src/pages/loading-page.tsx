@@ -14,6 +14,7 @@ export const LoadingPage = () => {
   }, []);
   return (
     <div
+      className="disable-selection"
       style={{
         display: "flex",
         justifyContent: "center",
