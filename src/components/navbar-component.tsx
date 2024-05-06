@@ -27,7 +27,6 @@ const NavbarComponent = () => {
   const nonTodoNames = ["home", "settings"];
   const isErrorPage =
     !todos.find((x) => x.name === param) && !nonTodoNames.includes(param);
-  console.log(isErrorPage);
 
   const buttonShowCondition = (name: string) => {
     if (width >= 992) return true;
