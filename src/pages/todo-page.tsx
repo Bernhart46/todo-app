@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { TodoComponent } from "../components/todo-component";
 import { AppDispatch, RootState } from "../store";
-import { setNavbarScrollTop } from "../store/visual/visual-slice";
 import HRLine from "../components/hr-line";
 import { useGetGroupAmount } from "../utils/hooks";
 
@@ -36,11 +35,6 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
     if (!group && state.visual.isStateLoaded) {
       navigate(`/error?page=${todo}`);
       return;
-    }
-    if (window.innerWidth <= 992 && group) {
-      dispatch(
-        setNavbarScrollTop({ groups: state.todo, groupName: group.name })
-      );
     }
   }, [todo, group, state.visual.isStateLoaded]);
 

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { setNavbarScrollTop, toggleNavbar } from "../store/visual/visual-slice";
+import { toggleNavbar } from "../store/visual/visual-slice";
 import {
   useChangeIndex,
   useGetGroupAmount,
@@ -19,7 +19,7 @@ const NavbarComponent = () => {
   const store = useSelector((store: RootState) => store);
   const changeIndex = useChangeIndex();
 
-  const { navbarToggled: isNavbarToggled, navbarScrollTop } = store.visual;
+  const { navbarToggled: isNavbarToggled } = store.visual;
   const todos = store.todo;
 
   const dispatch = useDispatch<AppDispatch>();
@@ -29,21 +29,8 @@ const NavbarComponent = () => {
     if (width >= 992 && isNavbarToggled) {
       dispatch(toggleNavbar(false));
     }
-    if (width <= 992 && !isNavbarToggled) {
-      if (navbarRef.current)
-        navbarRef.current.scrollTo({ top: navbarScrollTop });
-    }
   }, [width]);
-
-  //For scrolling the mobile version of the navbar
-  useEffect(() => {
-    if (isNavbarToggled || !navbarRef.current) return;
-    navbarRef.current.scrollTo({ top: navbarScrollTop });
-  }, [isNavbarToggled, store.visual.navbarScrollTop]);
-
-  const handleClick = (name: string) => {
-    //Calculating the new scroll top for mobile.
-    dispatch(setNavbarScrollTop({ groups: todos, groupName: name }));
+  const handleClick = () => {
     if (width >= 992) return;
     dispatch(toggleNavbar());
   };
@@ -57,7 +44,7 @@ const NavbarComponent = () => {
       <NavLink
         className="nav-button"
         to="/"
-        onClick={() => handleClick("Home")}
+        onClick={handleClick}
         tabIndex={100}
       >
         Home
@@ -72,7 +59,7 @@ const NavbarComponent = () => {
               to={todo.name}
               title={todo.name}
               tabIndex={tIndex}
-              onClick={() => handleClick(todo.name)}
+              onClick={handleClick}
               onKeyUp={(e) =>
                 changeIndex({
                   event: e,
@@ -89,7 +76,7 @@ const NavbarComponent = () => {
       <NavLink
         className="nav-button settings-button"
         to="/settings"
-        onClick={() => handleClick("Settings")}
+        onClick={handleClick}
         tabIndex={101 + todos.length + 1}
       >
         Settings

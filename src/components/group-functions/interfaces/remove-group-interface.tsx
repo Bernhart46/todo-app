@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store";
 import { removeGroup } from "../../../store/todo/todo-slice";
-import { setNavbarScrollTop } from "../../../store/visual/visual-slice";
 
 export const RemoveGroupInterface = (props: InterfaceProps) => {
   const { setIsToggled, groupName } = props;
@@ -14,7 +13,6 @@ export const RemoveGroupInterface = (props: InterfaceProps) => {
 
   const handleRemove = () => {
     dispatch(removeGroup({ groupName }));
-    dispatch(setNavbarScrollTop({ number: 0 }));
     navigate("/");
   };
 
