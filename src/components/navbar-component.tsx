@@ -8,7 +8,7 @@ import {
 } from "../utils/hooks";
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux/es/exports";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./navbar-component.css";
 import { addNewTodoGroup } from "../store/todo/todo-slice";
 
@@ -21,6 +21,7 @@ const NavbarComponent = () => {
   const [width] = useWindowSize();
   const store = useSelector((store: RootState) => store);
   const changeIndex = useChangeIndex();
+  const navigate = useNavigate();
 
   const { navbarToggled: isNavbarToggled } = store.visual;
   const todos = store.todo;
@@ -93,12 +94,20 @@ const NavbarComponent = () => {
                   title={todo.name}
                   tabIndex={tIndex}
                   onClick={handleClick}
-                  onKeyUp={(e) =>
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
+                  onKeyUp={(e) => {
+                    if (e.key === "Enter") {
+                      navigate(todo.name);
+                    }
                     changeIndex({
                       event: e,
                       groupName: todo.name,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {todo.name}
                 </NavLink>
