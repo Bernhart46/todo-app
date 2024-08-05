@@ -81,11 +81,17 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
   const ip_baseIndex = nst_baseIndex + notStartedTodos.length * 6;
   const done_baseIndex = ip_baseIndex + inProgress.length * 6;
 
+  //Empty checker
+  const isNotStartedEmpty = notStartedTodos.length === 0;
+  const isInProgressEmpty = inProgress.length === 0;
+  const isDoneEmpty = done.length === 0;
+
   return (
     <>
       <h1 className="center-text disable-selection">{group?.name}</h1>
       <div className="todo-list">
         <HRLine name="Not Started" />
+        {isNotStartedEmpty && EmptyElement}
         {group &&
           notStartedTodos.map((child, i) => {
             const tIndex = nst_baseIndex + i * 6;
@@ -102,6 +108,7 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
             );
           })}
         <HRLine name="In Progress" />
+        {isInProgressEmpty && EmptyElement}
         {group &&
           inProgress.map((child, i) => {
             const tIndex = ip_baseIndex + i * 6;
@@ -118,6 +125,7 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
             );
           })}
         <HRLine name="Finished" />
+        {isDoneEmpty && EmptyElement}
         {group &&
           done.map((child, i) => {
             const tIndex = done_baseIndex + i * 6;
@@ -133,10 +141,11 @@ export const TodoPage = ({ scrollToBottom }: TodoPageProps) => {
               />
             );
           })}
-        <br />
         <HRLine name="Functions" />
         {group && <GroupFunctionsComponent scrollToBottom={scrollToBottom} />}
       </div>
     </>
   );
 };
+
+const EmptyElement = <div className="empty-text">The List is Empty</div>;
