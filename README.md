@@ -6,6 +6,8 @@
 
 Live Demo: https://bernhart-todo-app.netlify.app/
 
+Offline linux AppImage: https://drive.proton.me/urls/W2RN1DCCMG#fxcCNTGthbwH
+
 In this project, you can create TodoGroups where you can put your tasks, but you can use it as a note app too, where you just put your notes.  
 (I use it to store my cooking recipes too 😁)
 
